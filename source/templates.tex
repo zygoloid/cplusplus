@@ -7124,14 +7124,19 @@ A
 \grammarterm{template-argument}
 can be deduced from a function, pointer to function, or pointer to
 member function type.
+\enternote
+cv-qualification of a deduced function type is ignored; see~\ref{dcl.fct}.
+\exitnote
 
 \enterexample
 
 \begin{codeblock}
 template<class T> void f(void(*)(T,int));
+template<class T> void f2(const T*);
 template<class T> void foo(T,int);
 void g(int,int);
 void g(char,int);
+void g2();
 
 void h(int,int,int);
 void h(char,int);
@@ -7139,6 +7144,7 @@ int m() {
   f(&g);            // error: ambiguous
   f(&h);            // OK: void \tcode{h(char,int)} is a unique match
   f(&foo);          // error: type deduction fails because \tcode{foo} is a template
+  f2(g2);           // OK: cv-qualification of deduced function type ignored
 }
 \end{codeblock}
 \exitexample
