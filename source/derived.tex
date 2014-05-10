@@ -30,20 +30,16 @@ the notation:
 
 \begin{bnf}
 \nontermdef{base-specifier}\br
-    attribute-specifier-seq\opt base-type-specifier\br
-    attribute-specifier-seq\opt \terminal{virtual} access-specifier\opt base-type-specifier\br
-    attribute-specifier-seq\opt access-specifier \terminal{virtual}\opt base-type-specifier
+    attribute-specifier-seq\opt class-or-decltype\br
+    attribute-specifier-seq\opt \terminal{virtual} access-specifier\opt class-or-decltype\br
+    attribute-specifier-seq\opt access-specifier \terminal{virtual}\opt class-or-decltype
 \end{bnf}
 
 \begin{bnf}
 \nontermdef{class-or-decltype}\br
     nested-name-specifier\opt class-name\br
+    nested-name-specifier \terminal{template} simple-template-id\br
     decltype-specifier
-\end{bnf}
-
-\begin{bnf}
-\nontermdef{base-type-specifier}\br
-    class-or-decltype
 \end{bnf}
 
 \indextext{specifier~access|see{access~specifier}}%

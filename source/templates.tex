@@ -639,28 +639,63 @@ Y<X<(6>>1)>> x5;                    // OK
 \exitexample
 
 \pnum
-When the name of a member template specialization appears after
-\tcode{.}
-or
-\tcode{->}
-in a
-\grammarterm{postfix-expression}
-or after a
-\grammarterm{nested-name-specifier}
-in a
-\grammarterm{qualified-id},
-and the
-object expression of the
-\grammarterm{postfix-expression}
-is type-dependent
-or
-the \grammarterm{nested-name-specifier} in the
-\grammarterm{qualified-id}
-refers to a dependent type, but the name is not
-a member of the current instantiation~(\ref{temp.dep.type}),
-the member template name must be prefixed by the keyword
-\tcode{template}.
-Otherwise the name is assumed to name a non-template.
+A name prefixed by the keyword
+\tcode{template}
+shall be a \grammarterm{template-id} or the name shall refer to a class template or alias template.
+\enternote
+The keyword
+\tcode{template}
+may not be applied to non-template members of class templates.
+\exitnote
+The \grammarterm{nested-name-specifier}~(\ref{expr.prim.general}) of
+\begin{itemize}
+\item a \grammarterm{class-head-name} (Clause~\ref{class})
+or \grammarterm{enum-head}~(\ref{dcl.enum}) (if any) or
+\item a \grammarterm{qualified-id} in a \grammarterm{declarator-id} (Clause~\ref{dcl.decl}),
+\end{itemize}
+or a \grammarterm{nested-name-specifier} directly contained in
+such a \grammarterm{nested-name-specifier} (recursively),
+shall not be of the form
+
+\begin{ncsimplebnf}
+nested-name-specifier \terminal{template} simple-template-id \terminal{::}
+\end{ncsimplebnf}
+
+\enternote
+That is, a \grammarterm{simple-template-id} shall not be prefixed by
+the keyword \tcode{template} in these cases.
+\exitnote
+
+\pnum
+The keyword \tcode{template} is optional in a
+\grammarterm{typename-specifier}~(\ref{temp.res}),
+\grammarterm{elaborated-type-specifier}~(\ref{dcl.type.elab}),
+\grammarterm{using-declaration}~(\ref{namespace.udecl}), or
+\grammarterm{class-or-decltype} (Clause~\ref{class.derived}), and in
+recursively directly-contained \grammarterm{nested-name-specifier}{s} thereof.
+In these contexts, a \tcode{<} token is always assumed
+to introduce a \grammarterm{template-argument-list}.
+\enternote
+Thus, if the preceding name is not a \grammarterm{template-name},
+the program is ill-formed.
+\exitnote
+In other contexts, when the name of a member template
+specialization appears after a \grammarterm{nested-name-specifier}
+that denotes a dependent type, but the name is not a
+member of the current instantiation~(\ref{temp.dep.type}),
+the member template name shall be prefixed by
+the keyword \tcode{template}.
+Similarly, when the name of a member template specialization
+appears after \tcode{.} or \tcode{->} in a
+\grammarterm{postfix-expression}~(\ref{expr.post}) and
+the object expression of the \grammarterm{postfix-expression} is
+type-dependent,
+but the name is not a
+member of the current instantiation,
+the member template name shall be prefixed
+by the keyword \tcode{template}.
+Otherwise, the name is assumed to name a non-template.
+
 \enterexample
 
 \begin{codeblock}
@@ -677,15 +712,6 @@ template<class T> void f(T* p) {
 \end{codeblock}
 \exitexample
 
-\pnum
-A name prefixed by the keyword
-\tcode{template}
-shall be a \grammarterm{template-id} or the name shall refer to a class template.
-\enternote
-The keyword
-\tcode{template}
-may not be applied to non-template members of class templates.
-\exitnote
 \enternote
 As is the case with the
 \tcode{typename}
