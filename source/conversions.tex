@@ -162,9 +162,10 @@ following rules:
 null pointer constant~(\ref{conv.ptr}).
 
 \item Otherwise, if \tcode{T} has a class
-type, the conversion copy-initializes a temporary of type \tcode{T} from
+type, the conversion copy-initializes~(\ref{dcl.init})
+a temporary object of type \tcode{T} from
 the glvalue and the result of the conversion is a prvalue for the
-temporary.
+temporary object; the conversion is a temporary expression (Clause~\ref{expr}).
 
 \item Otherwise, if the object to which the glvalue refers contains an invalid
 pointer value~(\ref{basic.stc.dynamic.deallocation},

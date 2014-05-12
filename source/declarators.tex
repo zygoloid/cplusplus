@@ -2760,9 +2760,9 @@ resolution (\ref{over.match}).  If the conversion cannot be done or
 is ambiguous, the initialization is ill-formed.  The function
 selected is called with the initializer expression as its
 argument; if the function is a constructor, the call initializes
-a temporary of the cv-unqualified version of the
-destination type.  The temporary is a prvalue. The result of the call
-(which is the temporary for the constructor case) is then used
+a temporary object of the cv-unqualified version of the
+destination type. The result of the call
+(which is a prvalue temporary expression for the constructor case) is then used
 to direct-initialize, according to the rules above, the object
 that is the destination of the copy-initialization.  In certain
 cases, an implementation is permitted to eliminate the copying
@@ -3467,9 +3467,9 @@ copy-initialization, is then used to direct-initialize the reference.
 For this direct-initialization, user-defined conversions are not considered.
 \item
 Otherwise,
-a temporary of type ``\nonterminal{cv1} \tcode{T1}'' is created and
+a temporary object of type ``\nonterminal{cv1} \tcode{T1}'' is created and
 copy-initialized~(\ref{dcl.init}) from the initializer expression.
-The reference is then bound to the temporary.
+The reference is then bound to the temporary object.
 \end{itemize}
 
 If
@@ -3515,7 +3515,7 @@ double&& rrd3 = i3;             // \tcode{rrd3} refers to temporary with value \
 \end{itemize}
 \end{itemize}
 
-In all cases except the last (i.e., creating and initializing a temporary from the
+In all cases except the last (i.e., creating and initializing a temporary object from the
 initializer expression), the reference is said to \defn{bind directly} to the
 initializer expression.
 

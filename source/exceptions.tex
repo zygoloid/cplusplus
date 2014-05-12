@@ -262,11 +262,16 @@ following the
 keyword was most recently entered by the thread of control and not yet exited.
 
 \pnum
+\indextext{exception handling!storage}%
+\indextext{exception handling!exception object}%
 Throwing an exception
-copy-initializes~(\ref{dcl.init}, \ref{class.copy}) a temporary object,
+copy-initializes~(\ref{dcl.init}, \ref{class.copy}) an object,
 called the
 \indextext{exception handling!exception object}\term{exception object}.
-The temporary is an lvalue and is used to initialize the
+The storage for the exception object is allocated in an unspecified way,
+except as noted in \ref{basic.stc.dynamic.allocation}.
+An lvalue designating the exception object
+is used to initialize the
 variable declared in the matching
 \term{handler}~(\ref{except.handle}).
 If the type of the exception object would
@@ -281,11 +286,7 @@ returning \tcode{T}'' to ``pointer to \tcode{T}'' or ``pointer to function retur
 \tcode{T},'' respectively.
 
 \pnum
-\indextext{exception handling!memory}%
 \indextext{exception handling!rethrowing}%
-\indextext{exception handling!exception object}%
-The memory for the exception object is
-allocated in an unspecified way, except as noted in~\ref{basic.stc.dynamic.allocation}.
 If a handler exits by rethrowing, control is passed to another handler for
 the same exception.
 The exception object is destroyed after either
@@ -298,7 +299,7 @@ of the object declared in the \grammarterm{exception-declaration} in the handler
 In the latter case, the destruction occurs before the destructor of \tcode{std::exception_ptr}
 returns.
 The implementation may then
-deallocate the memory for the exception object; any such deallocation
+deallocate the storage for the exception object; any such deallocation
 is done in an unspecified way.
 \enternote a thrown exception does not
 propagate to other threads unless caught, stored, and rethrown using

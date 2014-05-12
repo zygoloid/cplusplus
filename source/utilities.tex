@@ -5807,7 +5807,7 @@ The use count updates caused by the temporary object
 construction and destruction are not observable side
 effects, so the implementation may meet the effects (and the
 implied guarantees) via different means, without creating a
-temporary. In particular, in the example:
+temporary object. In particular, in the example:
 \begin{codeblock}
 shared_ptr<int> p(new int);
 shared_ptr<void> q(p);
