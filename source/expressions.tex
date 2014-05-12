@@ -146,6 +146,12 @@ a prvalue expression of type \tcode{int} is required.
 \exitnote 
 
 \pnum
+\indextext{temporary!expression}%
+An expression may be a \term{temporary expression},
+in which case the lifetime of its temporary object (if any)
+may be extended~(\ref{class.temporary}).
+
+\pnum
 \indextext{conversion!usual arithmetic}%
 Many binary operators that expect operands of arithmetic or enumeration
 type cause conversions and yield result types in a similar way. The
@@ -629,8 +635,9 @@ void abssort(float* x, unsigned N) {
 \end{bnf}
 
 \pnum
-The evaluation of a \grammarterm{lambda-expression} results in a prvalue
-temporary~(\ref{class.temporary}). This temporary is called the \defn{closure object}. A
+\indextext{closure object}%
+A \grammarterm{lambda-expression} is a prvalue temporary expression.
+Its value is a temporary object called the \defn{closure object}. A
 \grammarterm{lambda-expression} shall not appear in an unevaluated operand
 (Clause~\ref{expr}), in a \grammarterm{template-argument},
 in an \grammarterm{alias-declaration},
@@ -1240,8 +1247,11 @@ The expression \tcode{E1[E2]} is identical (by definition) to
 \enternote 
 see~\ref{expr.unary} and~\ref{expr.add} for details of \tcode{*} and
 \tcode{+} and~\ref{dcl.array} for details of arrays.
-\exitnote, except that in the case of an array operand, the result is an lvalue
-if that operand is an lvalue and an xvalue otherwise.
+\exitnote, except that in the case of an array operand:
+\begin{itemize}
+\item the result is an lvalue if that operand is an lvalue and an xvalue otherwise, and
+\item the result is a temporary expression if that operand is a temporary expression.
+\end{itemize}
 
 \pnum
 A \grammarterm{braced-init-list} shall not be used with the built-in subscript operator.
@@ -1466,7 +1476,10 @@ a \grammarterm{decltype-specifier} that considers whether an \grammarterm{id-exp
 is parenthesized~(\ref{dcl.type.simple}), parentheses have no special meaning
 in this context. \exitnote
 
-\item otherwise, the type of the prvalue shall be complete.
+\item otherwise, the type of the prvalue shall be complete and,
+if the result type is a class type,
+the function call is a temporary expression
+whose value is a temporary object.
 \end{itemize}
 
 \rSec2[expr.type.conv]{Explicit type conversion (functional notation)}
@@ -1478,41 +1491,47 @@ in this context. \exitnote
 \indextext{conversion~explicit~type|see{casting}}%
 \indextext{casting}%
 A \grammarterm{simple-type-specifier}~(\ref{dcl.type.simple}) or
-\grammarterm{typename-specifier}~(\ref{temp.res}) followed by a
-parenthesized \grammarterm{expression-list} constructs a value of the
-specified type given the expression list. If the expression list is a
-single expression, the type conversion expression is equivalent (in
-definedness, and if defined in meaning) to the corresponding cast
-expression~(\ref{expr.cast}).
-\indextext{type!incomplete}%
-If the type specified is a class type, the
-class type shall be complete. If the expression list specifies more than
-a single value, the type shall be a class with a suitably declared
-constructor~(\ref{dcl.init},~\ref{class.ctor}), and the expression
-\tcode{T(x1, x2, ...)} is equivalent in effect to the declaration
-\tcode{T t(x1, x2, ...);} for some invented temporary variable
-\tcode{t}, with the result being the value of \tcode{t} as a prvalue.
+\grammarterm{typename-specifier}~(\ref{temp.res})
+designating a type \placeholder{T}
+followed by
+a \grammarterm{braced-init-list} or
+a parenthesized \grammarterm{expression-list}
+constructs a value of type \placeholder{T} as follows:
 
-\pnum
-The expression \tcode{T()}, where \tcode{T} is a
-\grammarterm{simple-type-specifier} or \grammarterm{typename-specifier} for a non-array complete object
-type or the (possibly cv-qualified) \tcode{void} type, creates a prvalue of the
-specified type, whose value is that produced by
-value-initializing~(\ref{dcl.init}) an object of type \tcode{T}; no
-initialization is done for the \tcode{void()} case.
-\enternote 
-if \tcode{T} is a non-class type that is cv-qualified, the
-\grammarterm{cv-qualifier}{s} are discarded when determining the type of the
-resulting prvalue (Clause~\ref{expr}).
-\exitnote 
+\begin{itemize}
+\item
+In the case of an expression list with a
+single expression \placeholder{e},
+the type conversion expression is equivalent
+(in definedness, and if defined in meaning)
+to the corresponding cast expression
+\tcode{(T)(e)}~(\ref{expr.cast}).
 
-\pnum
-Similarly, a \grammarterm{simple-type-specifier} or
-\grammarterm{typename-specifier} followed by a \grammarterm{braced-init-list}
-creates a temporary object of the specified type
-direct-list-initialized~(\ref{dcl.init.list}) with the specified
-\grammarterm{braced-init-list}, and its value is that temporary object as a
-prvalue.
+\item
+The expression \tcode{T()},
+where \tcode{T} is (possibly cv-qualified) \tcode{void},
+creates a prvalue of \tcode{void} type.
+
+\item
+Otherwise, \placeholder{T} shall be
+an object type or
+a reference to such a type.
+If \placeholder{T} is a class type or reference to class type,
+the class type shall be complete.
+The result of the conversion expression is
+a value of type \placeholder{T}
+direct-initialized~(\ref{dcl.init})
+with the \grammarterm{braced-init-list}
+or parenthesized \grammarterm{expression-list}
+as the initializer.
+If \placeholder{T} is an lvalue reference, the result is an lvalue;
+if \placeholder{T} is an rvalue reference, the result is an xvalue;
+otherwise, the result is a prvalue.
+If \placeholder{T} is an array or class type or
+a reference to such a type,
+the result is a temporary object and
+the conversion expression is a temporary expression.
+\end{itemize}
 
 \rSec2[expr.pseudo]{Pseudo destructor call}
 
@@ -1615,7 +1634,11 @@ the named member of the class. The type of \tcode{E1.E2} is \tcode{T}.
 \item If \tcode{E2} is a non-static data member and the type of
 \tcode{E1} is ``\cvqual{cq1 vq1} \tcode{X}'', and the type of \tcode{E2}
 is ``\cvqual{cq2 vq2} \tcode{T}'', the expression designates the named
-member of the object designated by the first expression. If \tcode{E1}
+member of the object designated by the first expression.
+If \tcode{E1} is a temporary expression
+and \tcode{E2} does not designate a bit-field,
+then \tcode{E1.E2} is a temporary expression.
+If \tcode{E1}
 is an lvalue, then \tcode{E1.E2} is an lvalue;
 otherwise \tcode{E1.E2} is an xvalue.
 Let the notation \cvqual{vq12} stand for the ``union'' of
@@ -1744,6 +1767,9 @@ an lvalue of a complete class type, and the result is an lvalue of the
 type referred to by \tcode{T}. If \tcode{T} is an rvalue reference type,
 \tcode{v} shall be an expression having a complete class type, and the
 result is an xvalue of the type referred to by \tcode{T}.
+If \tcode{v} is a temporary expression
+and \tcode{T} is a reference type,
+the result is a temporary expression.
 
 \pnum
 If the type of \tcode{v} is the same as \tcode{T}, or it is
@@ -1955,8 +1981,14 @@ converting the expression \tcode{v} to type \tcode{T}.
 If \tcode{T} is an lvalue reference type
 or an rvalue reference to function type, the result is an lvalue;
 if \tcode{T} is an rvalue reference to object type, the result is an xvalue;
-otherwise, the result is a prvalue. The \tcode{static_cast} operator shall not cast
-away constness~(\ref{expr.const.cast}).
+otherwise, the result is a prvalue.
+If \tcode{v} is a temporary expression
+and \tcode{T} is ``reference to \placeholder{U}'',
+where \placeholder{U} is reference-compatible with
+the type of \tcode{v}~(\ref{dcl.init.ref}),
+the result is a temporary expression.
+The \tcode{static_cast} operator shall not
+cast away constness~(\ref{expr.const.cast}).
 
 \pnum
 \indextext{cast!static!reference}%
@@ -2012,6 +2044,9 @@ the same as performing the declaration and initialization and then using
 the temporary variable as the result of the conversion. The expression
 \tcode{e} is used as a glvalue if and
 only if the initialization uses it as a glvalue.
+If \tcode{T} is a class type,
+the \tcode{static_cast} is a temporary expression
+whose value is the temporary object \tcode{t}.
 
 \pnum
 Otherwise, the \tcode{static_cast} shall perform one of the conversions
@@ -2163,7 +2198,11 @@ if \tcode{T} is an rvalue reference to object type, the result is an xvalue;
 otherwise, the result is a prvalue and the
 lvalue-to-rvalue~(\ref{conv.lval}), array-to-pointer~(\ref{conv.array}),
 and function-to-pointer~(\ref{conv.func}) standard conversions are
-performed on the expression \tcode{v}. Conversions that can be performed explicitly
+performed on the expression \tcode{v}.
+If \tcode{v} is a temporary expression
+and \tcode{T} is a reference type,
+the result is a temporary expression.
+Conversions that can be performed explicitly
 using \tcode{reinterpret_cast} are listed below. No other conversion can
 be performed explicitly using \tcode{reinterpret_cast}.
 
@@ -2365,7 +2404,8 @@ explicitly converted to an xvalue of type \tcode{T2} using the cast
 \end{itemize}
 
 The result of a reference \tcode{const_cast} refers
-to the original object.
+to the original object;
+the result is a temporary expression if the operand is a temporary expression.
 
 \pnum
 For a \tcode{const_cast} involving pointers to data members, multi-level
@@ -3690,18 +3730,27 @@ result can be used only as the operand for the function call operator
 calls the member function denoted by \tcode{ptr_to_mfct} for the object
 pointed to by \tcode{ptr_to_obj}.
 \exitexample 
-In a \tcode{.*} expression whose object expression is an rvalue, the program is
-ill-formed if the second operand is a pointer to member function with
+If \tcode{E1} is an rvalue,
+the program is ill-formed
+if \tcode{E2}
+is a pointer to member function with
 \grammarterm{ref-qualifier} \tcode{\&}.
-In a \tcode{.*}
-expression whose object expression is an lvalue, the program is ill-formed if the second
-operand is a pointer to member function with \grammarterm{ref-qualifier} \tcode{\&\&}.
-The result of a \tcode{.*} expression
-whose second operand is a pointer to a data member is an lvalue if the first
-operand is an lvalue and an xvalue otherwise. The result of a \tcode{.*} expression whose
-second operand is a pointer to a member function is a prvalue.
-If the second operand is the null
-pointer to member value~(\ref{conv.mem}), the behavior is undefined.
+If \tcode{E1} is an lvalue,
+the program is ill-formed
+if \tcode{E2}
+is a pointer to member function with
+\grammarterm{ref-qualifier} \tcode{\&\&}.
+If \tcode{E1} is a temporary expression
+and \tcode{E2} is a pointer to data member,
+then \tcode{E1.*E2} is a temporary expression.
+The result of \tcode{E1.*E2}
+where \tcode{E2} is a pointer to data member
+is an lvalue if \tcode{E1} is an lvalue
+and an xvalue otherwise.
+If \tcode{E2} is a pointer to member function,
+the result is a prvalue.
+If \tcode{E2} is the null pointer to member value~(\ref{conv.mem}),
+the behavior is undefined.
 
 \rSec1[expr.mul]{Multiplicative operators}%
 \indextext{expression!multiplicative~operators}%
@@ -4257,8 +4306,9 @@ one of the following shall hold:
 \indextext{conditional-expression!throw-expression~in}%
 \item The second or the third operand (but not both) is a (possibly
 parenthesized) \grammarterm{throw-expression}~(\ref{except.throw}); the result
-is of the type and value category of the other.
+is of the type and value category of the other operand.
 The \grammarterm{conditional-expression}
+is a temporary expression if that operand is a temporary expression and
 is a bit-field if that operand is a bit-field.
 
 \item Both the second and the third operands have type \tcode{void}; the
@@ -4299,8 +4349,8 @@ same type as, or a base class of, the class of \tcode{T1}, and the
 cv-qualification of \tcode{T2} is the same cv-qualification as, or a
 greater cv-qualification than, the cv-qualification of \tcode{T1}. If
 the conversion is applied, \tcode{E1} is changed to a prvalue of type
-\tcode{T2} by copy-initializing a temporary of type \tcode{T2} from
-\tcode{E1} and using that temporary as the converted operand.
+\tcode{T2} by copy-initializing a temporary object of type \tcode{T2} from
+\tcode{E1} and using that object as the converted operand.
 
 \item Otherwise (if \tcode{E1} or \tcode{E2} has a non-class type,
 or if they both have class types but the underlying classes are not
@@ -4327,9 +4377,12 @@ the remainder of this section.
 
 \pnum
 If the second and third operands are glvalues of the same value category
-and have the same type, the
-result is of that type and value category and it is a bit-field if the
-second or the third operand is a bit-field, or if both are bit-fields.
+and have the same type,
+the result is of that type and value category
+and it is a bit-field if the second or the third operand is a bit-field,
+or if both are bit-fields.
+The \grammarterm{conditional-expression} is a temporary expression
+if the second or third operands, or both, are temporary expressions.
 
 \pnum
 Otherwise, the result is a prvalue. If the second and third operands do
@@ -4349,10 +4402,11 @@ of the following shall hold:
 
 \begin{itemize}
 \item The second and third operands have the same type; the result is of
-that type. If the operands have class type, the result is a prvalue
-temporary of the result type, which is copy-initialized from either the
+that type. If the operands have class type, the result is a
+temporary object of the result type, which is copy-initialized from either the
 second operand or the third operand depending on the value of the first
-operand.
+operand; the \grammarterm{conditional-expression} is a prvalue temporary
+expression.
 
 \item The second and third operands have arithmetic or enumeration type;
 the usual arithmetic conversions are performed to bring them to a common
@@ -4527,8 +4581,8 @@ The type and value of the
 result are the type and value of the right operand; the result is of the same
 value category as its right operand, and is a bit-field if its
 right operand is a glvalue and a bit-field.
-If the value of the right operand is a temporary~(\ref{class.temporary}),
-the result is that temporary.
+If the right operand is a temporary expression,
+the comma expression is a temporary expression.
 
 \pnum
 In contexts where comma is given a special meaning, \enterexample in
