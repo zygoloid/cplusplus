@@ -3172,7 +3172,9 @@ occur only in namespace scope~(\ref{basic.scope}). In a
 \grammarterm{linkage-specification}, the specified language linkage applies
 to the function types of all function declarators, function names with
 external linkage, and variable names with external linkage declared
-within the \grammarterm{linkage-specification}.
+within the \grammarterm{linkage-specification},
+including those appearing in scopes nested inside the linkage specification and
+not inside a nested \grammarterm{linkage-specification}.
 \enterexample
 
 \begin{codeblock}
@@ -3196,9 +3198,10 @@ extern "C" {
 
 extern "C" void f5() {
   extern void f4();             // OK: Name linkage (internal)
-                                // and function type linkage (C
-                                // language linkage) gotten from
-                                // previous declaration.
+                                // gotten from previous declaration;
+                                // function type linkage (C language
+                                // linkage) gotten from linkage
+                                // specification.
 }
 
 extern void f4();               // OK: Name linkage (internal)
