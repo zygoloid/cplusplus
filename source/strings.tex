@@ -894,7 +894,7 @@ namespace std {
     basic_string() : basic_string(Allocator()) { }
     explicit basic_string(const Allocator& a);
     basic_string(const basic_string& str);
-    basic_string(basic_string&& str) noexcept;
+    basic_string(basic_string&& str);
     basic_string(const basic_string& str, size_type pos, size_type n = npos,
                  const Allocator& a = Allocator());
     basic_string(const charT* s,
@@ -1156,7 +1156,7 @@ The postconditions of this function are indicated in Table~\ref{tab:strings.ctr.
 \indexlibrary{\idxcode{basic_string}!constructor}%
 \begin{itemdecl}
 basic_string(const basic_string& str);
-basic_string(basic_string&& str) noexcept;
+basic_string(basic_string&& str);
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -1375,9 +1375,6 @@ element is pointed at by the original value of \tcode{str.data()}. \\
 \tcode{capacity()}  &   a value at least as large as \tcode{size()}                     \\
 \tcode{get_allocator()} &	\tcode{alloc} \\
 \end{libefftabvalue}
-
-\pnum
-\throws The second form throws nothing if \tcode{alloc == str.get_allocator()}.
 \end{itemdescr}
 
 
