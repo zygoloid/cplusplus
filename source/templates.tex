@@ -3812,7 +3812,7 @@ template<class T> struct A {
 };
 
 template<class T> struct A<T>::B::C : A<T> {
-  M m; // OK, A<T>::M
+  M m; // OK, \tcode{A<T>::M}
 };
 \end{codeblock}
 \exitexample
