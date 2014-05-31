@@ -739,11 +739,13 @@ end of the sequence.
 
 \pnum
 In Tables~\ref{tab:containers.sequence.requirements}
-and \ref{tab:containers.sequence.optional}, \tcode{X}
-denotes a sequence container class,
-\tcode{a} denotes a value of \tcode{X} containing elements of type \tcode{T}, \tcode{A}
-denotes \tcode{X::allocator_type} if it exists and \tcode{std::allocator<T>} if it
-doesn't,
+and \ref{tab:containers.sequence.optional},
+\tcode{X} denotes a sequence container class,
+\tcode{a} denotes a value of \tcode{X} containing elements of type \tcode{T},
+\tcode{A} denotes \tcode{X::allocator_type} if
+the qualified-id \tcode{X::allocator_type} is valid and denotes a
+type~(\ref{temp.deduct}) and
+\tcode{std::allocator<T>} if it doesn't,
 \tcode{i} and \tcode{j}
 denote iterators satisfying input iterator requirements
 and refer to elements implicitly convertible to \tcode{value_type},
