@@ -847,10 +847,10 @@ The complexities of the expressions are sequence dependent.
 
 \tcode{a.insert(p,i,j)}    &
  \tcode{iterator}           &
- \requires \tcode{T} shall be \tcode{EmplaceConstructible} into \tcode{X} from \tcode{*i}. For \tcode{vector}, if the
- iterator does not meet the forward iterator requirements~(\ref{forward.iterators}),
- \tcode{T} shall also be
- \tcode{MoveInsertable} into \tcode{X} and \tcode{MoveAssignable}.
+ \requires  \tcode{T} shall be \tcode{EmplaceConstructible} into \tcode{X} from \tcode{*i}.
+ For \tcode{vector} and \tcode{deque}, \tcode{T} shall also be
+ \tcode{MoveInsertable} into \tcode{X}, \tcode{MoveConstructible}, \tcode{MoveAssignable},
+ and swappable~(\ref{swappable.requirements}).
  Each iterator in the range \range{i}{j} shall be dereferenced exactly once.\br
  pre: \tcode{i} and \tcode{j} are not iterators into \tcode{a}.\br
  Inserts copies of elements in \tcode{[i, j)} before \tcode{p}  \\ \rowsep
