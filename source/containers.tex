@@ -6797,8 +6797,8 @@ namespace std {
     explicit unordered_map(const Allocator&);
     unordered_map(const unordered_map&, const Allocator&);
     unordered_map(unordered_map&&, const Allocator&);
-    unordered_map(initializer_list<value_type>,
-      size_type = @\seebelow@,
+    unordered_map(initializer_list<value_type> il,
+      size_type n = @\seebelow@,
       const hasher& hf = hasher(),
       const key_equal& eql = key_equal(),
       const allocator_type& a = allocator_type());
@@ -6937,6 +6937,11 @@ template <class InputIterator>
                 const hasher& hf = hasher(),
                 const key_equal& eql = key_equal(),
                 const allocator_type& a = allocator_type());
+unordered_map(initializer_list<value_type> il,
+              size_type n = @\seebelow@,
+              const hasher& hf = hasher(),
+              const key_equal& eql = key_equal(),
+              const allocator_type& a = allocator_type());
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -6946,7 +6951,9 @@ specified hash function, key equality function, and allocator, and
 using at least \textit{\tcode{n}} buckets. If \textit{\tcode{n}} is not
 provided, the number of buckets is \impldef{default number of buckets in
 \tcode{unordered_map}}. Then
-inserts elements from the range \tcode{[\textit{f}, \textit{l})}.
+inserts elements from the range \tcode{[\textit{f}, \textit{l})}
+for the first form, or from the range 
+\tcode{[\textit{il.begin()}, \textit{il.end()})} for the second form.
 \tcode{max_load_factor()} returns 1.0.
 
 \pnum
@@ -7127,8 +7134,8 @@ namespace std {
     explicit unordered_multimap(const Allocator&);
     unordered_multimap(const unordered_multimap&, const Allocator&);
     unordered_multimap(unordered_multimap&&, const Allocator&);
-    unordered_multimap(initializer_list<value_type>,
-      size_type = @\seebelow@,
+    unordered_multimap(initializer_list<value_type> il,
+      size_type n = @\seebelow@,
       const hasher& hf = hasher(),
       const key_equal& eql = key_equal(),
       const allocator_type& a = allocator_type());
@@ -7262,6 +7269,11 @@ template <class InputIterator>
                      const hasher& hf = hasher(),
                      const key_equal& eql = key_equal(),
                      const allocator_type& a = allocator_type());
+unordered_multimap(InputIterator f, InputIterator l,
+                   size_type n = @\seebelow@,
+                   const hasher& hf = hasher(),
+                   const key_equal& eql = key_equal(),
+                   const allocator_type& a = allocator_type());
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7271,7 +7283,9 @@ specified hash function, key equality function, and allocator, and
 using at least \textit{\tcode{n}} buckets. If \textit{\tcode{n}} is not
 provided, the number of buckets is \impldef{default number of buckets in
 \tcode{unordered_multimap}}. Then
-inserts elements from the range \tcode{[\textit{f}, \textit{l})}.
+inserts elements from the range \tcode{[\textit{f}, \textit{l})}
+for the first form, or from the range 
+\tcode{[\textit{il.begin()}, \textit{il.end()})} for the second form.
 \tcode{max_load_factor()} returns 1.0.
 
 \pnum
@@ -7396,8 +7410,8 @@ namespace std {
     explicit unordered_set(const Allocator&);
     unordered_set(const unordered_set&, const Allocator&);
     unordered_set(unordered_set&&, const Allocator&);
-    unordered_set(initializer_list<value_type>,
-      size_type = @\seebelow@,
+    unordered_set(initializer_list<value_type> il,
+      size_type n = @\seebelow@,
       const hasher& hf = hasher(),
       const key_equal& eql = key_equal(),
       const allocator_type& a = allocator_type());
@@ -7528,6 +7542,11 @@ template <class InputIterator>
                 const hasher& hf = hasher(),
                 const key_equal& eql = key_equal(),
                 const allocator_type& a = allocator_type());
+unordered_set(initializer_list<value_type> il,
+              size_type n = @\seebelow@,
+              const hasher& hf = hasher(),
+              const key_equal& eql = key_equal(),
+              const allocator_type& a = allocator_type());
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7537,7 +7556,9 @@ specified hash function, key equality function, and allocator, and
 using at least \textit{\tcode{n}} buckets. If \textit{\tcode{n}} is not
 provided, the number of buckets is \impldef{default number of buckets in
 \tcode{unordered_set}}. Then
-inserts elements from the range \tcode{[\textit{f}, \textit{l})}.
+inserts elements from the range \tcode{[\textit{f}, \textit{l})}
+for the first form, or from the range 
+\tcode{[\textit{il.begin()}, \textit{il.end()})} for the second form.
 \tcode{max_load_factor()} returns 1.0.
 
 \pnum
@@ -7633,8 +7654,8 @@ namespace std {
     explicit unordered_multiset(const Allocator&);
     unordered_multiset(const unordered_multiset&, const Allocator&);
     unordered_multiset(unordered_multiset&&, const Allocator&);
-    unordered_multiset(initializer_list<value_type>,
-      size_type = @\seebelow@,
+    unordered_multiset(initializer_list<value_type> il,
+      size_type n = @\seebelow@,
       const hasher& hf = hasher(),
       const key_equal& eql = key_equal(),
       const allocator_type& a = allocator_type());
@@ -7765,6 +7786,11 @@ template <class InputIterator>
                      const hasher& hf = hasher(),
                      const key_equal& eql = key_equal(),
                      const allocator_type& a = allocator_type());
+unordered_multiset(initializer_list<value_type> il,
+                   size_type n = @\seebelow@,
+                   const hasher& hf = hasher(),
+                   const key_equal& eql = key_equal(),
+                   const allocator_type& a = allocator_type());
 \end{itemdecl}
 
 \begin{itemdescr}
@@ -7774,7 +7800,9 @@ specified hash function, key equality function, and allocator, and
 using at least \textit{\tcode{n}} buckets. If \textit{\tcode{n}} is not
 provided, the number of buckets is \impldef{default number of buckets in
 \tcode{unordered_multiset}}. Then
-inserts elements from the range \tcode{[\textit{f}, \textit{l})}.
+inserts elements from the range \tcode{[\textit{f}, \textit{l})}
+for the first form, or from the range 
+\tcode{[\textit{il.begin()}, \textit{il.end()})} for the second form.
 \tcode{max_load_factor()} returns 1.0.
 
 \pnum\complexity Average case linear, worst case quadratic.
