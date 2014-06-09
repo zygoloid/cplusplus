@@ -1176,7 +1176,7 @@ defined as
 \tcode{exp(y*log(x))}.
 The value returned for
 \tcode{pow(0,0)}
-is implementation-defined.
+is \impldef{return value of \tcode{pow(0,0)}}.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{sin}!\idxcode{complex}}%
@@ -3749,7 +3749,7 @@ typedef @\textit{implementation-defined}@
 \pnum\note
 The choice of engine type
 named by this \tcode{typedef}
-is implementation-defined.
+is \impldef{type of \tcode{default_random_engine}}.
 \enternote
  The implementation
  may select this type
@@ -3828,14 +3828,19 @@ explicit random_device(const string& token = @\textit{implementation-defined}@);
 \begin{itemdescr}
 \pnum\effects Constructs a \tcode{random_device}
  non-deterministic uniform random number generator object.
- The semantics and default value of the \tcode{token}
- parameter are implementation-defined.\footnote{   The parameter is intended
+ The semantics and default argument of the \tcode{token}
+ parameter are
+\impldef{\idxcode{random_device}!semantics and default
+argument of constructor parameter}.%
+\footnote{The parameter is intended
    to allow an implementation to differentiate
    between different sources of randomness.
  }
 
 \pnum
-\throws A value of an implementation-defined type
+\throws A value of an
+\impldef{\idxcode{random_device}!type of exception thrown
+if initialization fails} type
  derived from \tcode{exception}
  if the \tcode{random_device} could not be initialized.
 \end{itemdescr}
@@ -3872,10 +3877,14 @@ result_type operator()();
  uniformly distributed
  between \tcode{min()} and \tcode{max()},
  inclusive.
- It is implementation-defined how these values are generated.
+ It is
+\impldef{\idxcode{random_device}!mechanism for generating random numbers}
+how these values are generated.
 
 \pnum
-\throws A value of an implementation-defined type
+\throws A value of an
+\impldef{\idxcode{random_device}!type of exception thrown
+if random number cannot be obtained} type
  derived from \tcode{exception}
  if a random number could not be obtained.
 \end{itemdescr}
@@ -4226,7 +4235,8 @@ are not shown in the synopses.
 The algorithms
 for producing each
 of the specified distributions
-are implementation-defined.
+are \impldef{algorithms used by
+random number distribution class templates}.
 
 \pnum
 The value of each probability density function $p(z)$
@@ -9015,7 +9025,8 @@ The
 \tcode{rand}
 function has the semantics specified in the C standard, except that the implementation
 may specify that particular library functions may call
-\tcode{rand}. It is implementation-defined whether the \tcode{rand} function
+\tcode{rand}. It is \impldef{whether \tcode{rand} may introduce data races}
+whether the \tcode{rand} function
 may introduce data races~(\ref{res.on.data.races}). \enternote The random
 number generation~(\ref{rand}) facilities in this standard are often preferable
 to \tcode{rand}, because \tcode{rand}'s underlying algorithm is unspecified.
