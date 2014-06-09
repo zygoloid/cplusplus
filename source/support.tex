@@ -68,8 +68,7 @@ with the following changes:
 The macro
 \indexlibrary{\idxcode{NULL}}%
 \tcode{NULL}
-is an implementation-defined \Cpp null pointer constant in
-\indextext{implementation-defined}%
+is an \impldef{definition of \tcode{NULL}} \Cpp null pointer constant in
 this International Standard (\ref{conv.ptr}).\footnote{Possible definitions include
 \tcode{0}
 and
@@ -1421,15 +1420,13 @@ an \impldef{exit status}
 form of the status
 \term{successful termination}
 is returned.
-\indextext{implementation-defined}%
 If \tcode{status} is
 \tcode{EXIT_FAILURE},
 an \impldef{exit status} form of the status
 \term{unsuccessful termination}
 is returned.
-\indextext{implementation-defined}%
 Otherwise the status returned is \impldef{exit status}.%
-\indextext{implementation-defined}\footnote{The macros
+\footnote{The macros
 \tcode{EXIT_FAILURE}
 and
 \tcode{EXIT_SUCCESS}
@@ -2142,10 +2139,10 @@ Constructs an object of class
 \notes
 The result of calling
 \tcode{what()}
-on the newly constructed object is implementation-defined.
+on the newly constructed object is
+\impldef{return value of \tcode{bad_alloc::what}}.
 \end{itemdescr}
 
-\indextext{implementation-defined}%
 \indexlibrary{\idxcode{bad_alloc}!\idxcode{bad_alloc}}%
 \indexlibrary{\idxcode{operator=}!\tcode{bad_alloc}}%
 \begin{itemdecl}
@@ -2168,7 +2165,6 @@ virtual const char* what() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\indexlibrary{\idxcode{bad_alloc}!\idxcode{bad_alloc::what}!implementation-defined}%
 An \impldef{return value of \tcode{bad_alloc::what}} \ntbs.
 \end{itemdescr}
 
@@ -2201,7 +2197,7 @@ bad_array_new_length() noexcept;
 
 \pnum
 \remarks the result of calling \tcode{what()} on the newly constructed object is
-implementation-defined.
+\impldef{return value of \tcode{bad_array_new_length::what}}.
 \end{itemdescr}
 
 \rSec3[new.handler]{Type \tcode{new_handler}}
@@ -2400,8 +2396,7 @@ const char* name() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-An \impldef{return value of \tcode{type_info::name()}} \ntbs.
-\indexlibrary{\idxcode{type_info::name}!implementation-defined}
+An \impldef{return value of \tcode{type_info::name}} \ntbs.
 
 \pnum
 \notes
@@ -2449,8 +2444,8 @@ Constructs an object of class
 \notes
 The result of calling
 \tcode{what()}
-on the newly constructed object is implementation-defined.%
-\indextext{implementation-defined}
+on the newly constructed object is
+\impldef{return value of \tcode{bad_cast::what}}.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{bad_cast}!\tcode{bad_cast}}%
@@ -2475,8 +2470,7 @@ virtual const char* what() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-An \impldef{return value of \tcode{bad_cast::what}} \ntbs.%
-\indexlibrary{\idxcode{bad_cast::what}!implementation-defined}
+An \impldef{return value of \tcode{bad_cast::what}} \ntbs.
 
 \pnum
 \notes
@@ -2524,8 +2518,8 @@ Constructs an object of class
 \notes
 The result of calling
 \tcode{what()}
-on the newly constructed object is implementation-defined.%
-\indextext{implementation-defined}
+on the newly constructed object is
+\impldef{return value of \tcode{bad_typeid::what}}.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{bad_typeid}!\tcode{bad_typeid}}%
@@ -2550,8 +2544,7 @@ virtual const char* what() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-An \impldef{return value of \tcode{bad_typeid::what}} \ntbs.%
-\indextext{\idxcode{bad_typeid::what}!implementation-defined}
+An \impldef{return value of \tcode{bad_typeid::what}} \ntbs.
 
 \pnum
 \notes
@@ -2668,7 +2661,6 @@ object.
 then \tcode{strcmp(what(), rhs.what())} shall equal 0.
 \end{itemdescr}
 
-\indextext{implementation-defined}%
 \indexlibrary{\idxcode{exception}!destructor}%
 \begin{itemdecl}
 virtual ~exception();
@@ -2693,8 +2685,7 @@ virtual const char* what() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-\indextext{exception::what~message@\tcode{exception::what}~message!implementation-defined}%
-An \impldef{result of \tcode{exception::what}} \ntbs.
+An \impldef{return value of \tcode{exception::what}} \ntbs.
 
 \pnum
 \notes
@@ -2742,8 +2733,8 @@ Constructs an object of class
 \notes
 The result of calling
 \tcode{what()}
-on the newly constructed object is implementation-defined.%
-\indextext{implementation-defined}
+on the newly constructed object is
+\impldef{return value of \tcode{bad_exception::what}}.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{bad_exception}!\tcode{bad_exception}}%
@@ -2768,8 +2759,7 @@ virtual const char* what() const noexcept;
 \begin{itemdescr}
 \pnum
 \returns
-An \impldef{return value of \tcode{bad_exception::what}} \ntbs.%
-\indexlibrary{\idxcode{bad_exception::what}!implementation-defined}
+An \impldef{return value of \tcode{bad_exception::what}} \ntbs.
 
 \pnum
 \notes
