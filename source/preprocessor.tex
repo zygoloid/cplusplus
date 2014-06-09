@@ -1214,7 +1214,6 @@ The presumed line number (within the current source file) of the current source 
 \addtocounter{footnote}{-1}\footnotemark\
 
 \indextext{\xname{STDC_HOSTED}@\mname{STDC_HOSTED}}%
-\indextext{\xname{STDC_HOSTED}@\mname{STDC_HOSTED}!implementation-defined}%
 \item \mname{STDC_HOSTED}\\
 The integer literal \tcode{1} if the implementation is a hosted
 implementation or the integer literal \tcode{0} if it is not.
@@ -1236,26 +1235,22 @@ The following macro names are conditionally defined by the implementation:
 
 \begin{description}
   \indextext{\xname{STDC}@\mname{STDC}}%
-  \indextext{\xname{STDC}@\mname{STDC}!implementation-defined}%
 \item \mname{STDC}\\
 Whether \mname{STDC} is predefined and if so, what its value is,
 are \impldef{definition and meaning of \mname{STDC}}.
 
 \indextext{\xname{STDC_MB_MIGHT_NEQ_WC}@\mname{STDC_MB_MIGHT_NEQ_WC}}%
-\indextext{\xname{STDC_MB_MIGHT_NEQ_WC}@\mname{STDC_MB_MIGHT_NEQ_WC}!implementation-defined}%
 \item \mname{STDC_MB_MIGHT_NEQ_WC}\\
 The integer literal \tcode{1}, intended to indicate that, in the encoding for
 \tcode{wchar_t}, a member of the basic character set need not have a code value equal to
 its value when used as the lone character in an ordinary character literal.
 
 \indextext{\xname{STDC_VERSION}@\mname{STDC_VERSION}}%
-\indextext{\xname{STDC_VERSION}@\mname{STDC_VERSION}!implementation-defined}%
 \item \mname{STDC_VERSION}\\
 Whether \mname{STDC_VERSION} is predefined and if so, what its value is,
 are \impldef{definition and meaning of \mname{STDC_VERSION}}.
 
 \indextext{\xname{STDC_ISO_10646}@\mname{STDC_ISO_10646}}%
-\indextext{\xname{STDC_ISO_10646}@\mname{STDC_ISO_10646}!implementation-defined}%
 \item \mname{STDC_ISO_10646}\\
 An integer literal of the form \tcode{yyyymmL} (for example,
 \tcode{199712L}).
@@ -1266,13 +1261,13 @@ the characters that are defined by ISO/IEC 10646, along with
 all amendments and technical corrigenda as of the specified year and month.
 
 \indextext{\xname{STDCPP_STRICT_POINTER_SAFETY}@\mname{STDCPP_STRICT_POINTER_SAFETY}}%
-\indextext{\xname{STDCPP_STRICT_POINTER_SAFETY}@\mname{STDCPP_STRICT_POINTER_SAFETY}!implementation-defined}%
+\indeximpldef{whether an implementation has relaxed or strict pointer safety}%
 \item \mname{STDCPP_STRICT_POINTER_SAFETY}\\
 Defined, and has the value integer literal 1, if and only if the implementation
 has strict pointer safety~(\ref{basic.stc.dynamic.safety}).
 
 \indextext{\xname{STDCPP_THREADS}@\mname{STDCPP_THREADS}}%
-\indextext{\xname{STDCPP_THREADS}@\mname{STDCPP_THREADS}!implementation-defined}%
+\indeximpldef{number of threads in a program under a freestanding implementation}%
 \item \mname{STDCPP_THREADS}\\
 Defined, and has the value integer literal 1, if and only if a program
 can have more than one thread of execution~(\ref{intro.multithread}).
