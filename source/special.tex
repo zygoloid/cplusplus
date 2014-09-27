@@ -3125,31 +3125,6 @@ deleted~(\ref{dcl.fct.def.delete})
 or if a defaulted default constructor~(\ref{class.ctor}) would be deleted,
 except that the construction of the direct base
 class \tcode{X} is not considered in the determination.
-When performing template argument substitution~(\ref{temp.deduct})
-for a constructor template so declared,
-name lookup, overload resolution, and access checking
-are performed in the context of
-the corresponding constructor template of \tcode{X}.
-\enterexample
-\begin{codeblock}
-struct B {
-  template<class T> B(T, typename T::Q);
-};
-
-class S {
-  using Q = int;
-  template<class T>
-  friend B::B(T, typename T::Q);
-};
-
-struct D : B {
-  using B::B;
-};
-
-B b(S(), 1); // OK: \tcode{B::B} is a friend of \tcode{S}
-D d(S(), 2); // OK: access control is in the context of \tcode{B::B}
-\end{codeblock}
-\exitexample
 An inheriting constructor shall not be explicitly
 instantiated~(\ref{temp.explicit}) or explicitly specialized~(\ref{temp.expl.spec}).
 
