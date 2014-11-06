@@ -277,10 +277,12 @@ naming a class is also a
 
 \begin{bnf}
 \nontermdef{character-literal}\br
-    \terminal{'} c-char-sequence \terminal{'}\br
-    u\terminal{'} c-char-sequence \terminal{'}\br
-    U\terminal{'} c-char-sequence \terminal{'}\br
-    L\terminal{'} c-char-sequence \terminal{'}
+    encoding-prefix\opt \terminal{'} c-char-sequence \terminal{'}
+\end{bnf}
+
+\begin{bnf}
+\nontermdef{encoding-prefix} \textnormal{one of}\br
+    \terminal{u8}\quad\terminal{u}\quad\terminal{U}\quad\terminal{L}
 \end{bnf}
 
 \begin{bnf}
@@ -361,14 +363,6 @@ naming a class is also a
 \nontermdef{string-literal}\br
     encoding-prefix\opt \terminal{"} s-char-sequence\opt \terminal{"}\br
     encoding-prefix\opt \terminal{R} raw-string
-\end{bnf}
-
-\begin{bnf}
-\nontermdef{encoding-prefix}\br
-  \terminal{u8}\br
-  \terminal{u}\br
-  \terminal{U}\br
-  \terminal{L}
 \end{bnf}
 
 \begin{bnf}
