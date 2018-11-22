@@ -229,9 +229,6 @@ namespace std {
 
 \rSec1[range.access]{Range access}
 
-\ednote{This wording integrates the PR for
-\href{https://github.com/ericniebler/stl2/issues/547}{stl2\#547}.}
-
 \pnum
 In addition to being available via inclusion of the \tcode{<ranges>}
 header, the customization point objects in \ref{range.access} are
@@ -241,7 +238,7 @@ available when \tcode{<iterator>} is included.
 \pnum
 The name \tcode{ranges::begin} denotes a customization point
 object\iref{customization.point.object}. The expression
-\tcode{ranges::begin(E)} for some subexpression \tcode{E} is
+\tcode{ranges::\brk{}begin(E)} for some subexpression \tcode{E} is
 expression-equivalent to:
 
 \begin{itemize}
@@ -326,7 +323,7 @@ model \libconcept{Sentinel<S, I>}.
 \pnum
 The name \tcode{ranges::cbegin} denotes a customization point
 object\iref{customization.point.object}. The expression
-\tcode{ranges::cbegin(E)} for some subexpression \tcode{E} of type \tcode{T}
+\tcode{ranges::\brk{}cbegin(E)} for some subexpression \tcode{E} of type \tcode{T}
 is expression-equivalent to:
 \begin{itemize}
 \item \tcode{ranges::begin(static_cast<const T\&>(E))} if \tcode{E} is an lvalue.
@@ -363,7 +360,7 @@ model \libconcept{Sentinel<S, I>}.
 \pnum
 The name \tcode{ranges::rbegin} denotes a customization point
 object\iref{customization.point.object}. The expression
-\tcode{ranges::rbegin(E)} for some subexpression \tcode{E} is
+\tcode{ranges::\brk{}rbegin(E)} for some subexpression \tcode{E} is
 expression-equivalent to:
 
 \begin{itemize}
@@ -382,7 +379,7 @@ expression-equivalent to:
 
 \item
   Otherwise, \tcode{make_reverse_iterator(ranges::end(E))} if both
-  \tcode{ranges::begin(E)} and \tcode{ranges::\brk{}end(\brk{}E)} are valid
+  \tcode{ranges::begin(E)} and \tcode{ranges::end(\brk{}E)} are valid
   expressions of the same type \tcode{I} which models
   \libconcept{BidirectionalIterator}\iref{iterator.concept.bidirectional}.
 
@@ -411,12 +408,12 @@ expression-equivalent to:
 \item
   If \tcode{E} is an lvalue, \tcode{\placeholdernc{DECAY_COPY}(E.rend())}
   if it is a valid expression and its type \tcode{S} models
-  \tcode{Sentinel<decltype(\brk{}ranges::\brk{}rbegin(E))>}.
+  \tcode{Sentinel<\brk{}decltype(ranges::rbegin(E))>}.
 
 \item
   Otherwise, \tcode{\placeholdernc{DECAY_COPY}(rend(E))} if it is a valid
   expression and its type \tcode{S} models
-  \tcode{Sentinel<\brk{}decltype(\brk{}ranges::rbegin(E))>} with overload
+  \tcode{Sentinel<decltype(\brk{}ranges::rbegin(E))>} with overload
   resolution performed in a context that includes the declaration:
   \begin{codeblock}
   template<class T> void rend(T&&) = delete;
@@ -425,7 +422,7 @@ expression-equivalent to:
 
 \item
   Otherwise, \tcode{make_reverse_iterator(ranges::begin(E))} if both
-  \tcode{ranges::begin(E)} and \tcode{ranges::end(\brk{}E)} are valid
+  \tcode{ranges::begin(E)} and \tcode{ranges::\brk{}end(E)} are valid
   expressions of the same type \tcode{I} which models
   \tcode{BidirectionalIterator}\iref{iterator.concept.bidirectional}.
 
@@ -467,7 +464,7 @@ type models \tcode{Iterator}.
 \pnum
 The name \tcode{ranges::crend} denotes a customization point
 object\iref{customization.point.object}. The expression
-\tcode{ranges::crend(E)} for some subexpression \tcode{E} of type \tcode{T}
+\tcode{ranges::\brk{}crend(E)} for some subexpression \tcode{E} of type \tcode{T}
 is expression-equivalent to:
 \begin{itemize}
 \item \tcode{ranges::rend(static_cast<const T\&>(E))} if \tcode{E} is an lvalue.
@@ -530,7 +527,7 @@ object\iref{customization.point.object}. The expression
   the types \tcode{I} and \tcode{S} of \tcode{ranges::begin(E)} and
   \tcode{ranges::end(E)} model
   \tcode{SizedSentinel<S, I>}\iref{iterator.concept.sizedsentinel} and
-  \tcode{ForwardIterator<I>}.
+  \tcode{Forward\-Iterator<I>}.
   However, \tcode{E} is evaluated only once.
 
 \item
@@ -702,7 +699,7 @@ template<class T>
 The required expressions
 \tcode{ranges::begin(std::forward<T>(t))}
 and
-\tcode{ranges::end(std::forward<T>(t))}
+\tcode{ranges::end(std::forward<\brk{}T>(t))}
 of the \tcode{\placeholder{range-impl}} concept
 do not require implicit expression variations\iref{concepts.equality}.
 
@@ -1736,7 +1733,7 @@ constexpr filter_view(R&& r, Pred pred);
 \begin{itemdescr}
 \pnum
 \effects Initializes \tcode{base_} with \tcode{view::all(std::forward<R>(r))}
-and initializes \tcode{pred_} with \tcode{std::move(pred)}.
+and initializes \tcode{pred_} with \tcode{std::\brk{}move(pred)}.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{base}!\idxcode{filter_view}}%
@@ -1838,7 +1835,7 @@ satisfy the filter predicate.
 \tcode{iterator_traits<iterator_t<V>>::iterator_category}.
 
 \item If \tcode{C} models \tcode{DerivedFrom<bidirectional_iterator_tag>},
-then \tcode{iterator_category} denotes \tcode{bidirectional_iterator_tag}.
+then \tcode{iterator_category} denotes \tcode{bi\-directional_iterator_tag}.
 
 \item Otherwise, if  \tcode{C} models \tcode{DerivedFrom<forward_iterator_tag>},
 then \tcode{iterator_category} denotes \tcode{forward_iterator_tag}.
@@ -3785,14 +3782,14 @@ template<class V>
 \item Let \placeholder{OUTERC} denote
   \tcode{iterator_traits<iterator_t<Base>>::iterator_category}, and
   let \placeholder{INNERC} denote
-  \tcode{iterator_traits<iterator_t<iter_reference_t<iterator_t<Base>>>>::iterator_category}.
+  \tcode{iterator_traits<iterator_t<iter_reference_t<iterator_t<Base>>>>::iterator_cate\-gory}.
 \item If \tcode{ref_is_glvalue} is \tcode{true},
   \begin{itemize}
   \item If \placeholder{OUTERC} and \placeholder{INNERC} each model
-    \tcode{DerivedFrom<bidirectional_iterator_tag>}, \tcode{iterator_category}
+    \tcode{DerivedFrom<bidirectional_iterator_tag>}, \tcode{itera\-tor_category}
     denotes \tcode{bidirectional_iterator_tag}.
   \item Otherwise, if \placeholder{OUTERC} and \placeholder{INNERC} each model
-    \tcode{DerivedFrom<forward_iterator_tag>}, \tcode{iterator_category}
+    \tcode{DerivedFrom<forward_iterator_tag>}, \tcode{itera\-tor_category}
     denotes \tcode{forward_iterator_tag}.
   \end{itemize}
 \item Otherwise, \tcode{iterator_category} denotes \tcode{input_iterator_tag}.
@@ -4816,7 +4813,7 @@ Then the expression \tcode{view::counted(E, F)} is expression-equivalent to:
   \tcode{decltype((F))} models \libconcept{ConvertibleTo<iter_difference_t<T>>},
   \begin{itemize}
   \item \tcode{subrange\{E, E + static_cast<iter_difference_t<T>>(F)\}}
-    if \tcode{T} models \libconcept{RandomAccessIterator}.
+    if \tcode{T} models \libconcept{RandomAccessItera\-tor}.
   \item Otherwise,
     \tcode{subrange\{counted_iterator\{E, F\}, default_sentinel\}}.
 \end{itemize}
@@ -5071,7 +5068,9 @@ constexpr reverse_iterator<iterator_t<V>> begin();
 \begin{itemdescr}
 \pnum
 \returns
-\tcode{make_reverse_iterator(ranges::next(ranges::begin(base_), ranges::end(base_)))}.
+\begin{codeblock}
+make_reverse_iterator(ranges::next(ranges::begin(base_), ranges::end(base_)))
+\end{codeblock}
 
 \pnum
 \remarks In order to provide the amortized constant time complexity required by
