@@ -4064,7 +4064,7 @@ $i < M$, performs \tcode{*(result + i) = *(first + i)}.
 \begin{itemize}
 \item
 \tcode{result + $M$} for the overloads in namespace \tcode{std}, or
-\item 
+\item
 \tcode{\{first + $M$, result + $M$\}}
   for the overload in namespace \tcode{ranges}.
 \end{itemize}
@@ -6281,7 +6281,7 @@ and \tcode{proj} be \tcode{identity\{\}}
 for the overloads with no parameters by those names.
 
 \pnum
-\returns 
+\returns
 The last iterator \tcode{i} in \crange{first}{last} for which the
 range \range{first}{i} is sorted with respect to \tcode{comp} and \tcode{proj}.
 
@@ -6881,7 +6881,7 @@ does not meet the \oldconcept{CopyConstructible} requirements.
 For each iterator \tcode{i} in \range{first}{last}, copies \tcode{*i} to the output range beginning with \tcode{out_true} if \tcode{$E(\tcode{*i})$} is \tcode{true}, or to the output range beginning with \tcode{out_false} otherwise.
 
 \pnum
-\returns 
+\returns
 Let \tcode{o1} be the end of the output range beginning at \tcode{out_true},
 and \tcode{o2} the end of the output range beginning at \tcode{out_false}.
 Returns
@@ -7973,7 +7973,7 @@ and \tcode{proj} be \tcode{identity\{\}}
 for the overloads with no parameters by those names.
 
 \pnum
-\returns 
+\returns
 The last iterator \tcode{i} in \crange{first}{last} for which the
 range \range{first}{i} is a heap with respect to \tcode{comp} and \tcode{proj}.
 
@@ -8211,7 +8211,7 @@ the smallest and \tcode{y} a copy of the rightmost element with the
 largest value in the input range.
 
 \pnum
-\remarks 
+\remarks
 An invocation may explicitly specify an argument
 for the template parameter \tcode{T}
 of the overloads in namespace \tcode{std}.
