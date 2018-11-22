@@ -258,8 +258,9 @@ explicitly-specified template argument lists.
 \end{note}
 
 \pnum
-The class templates  \tcode{binary_transform_result}, \tcode{copy_result},
-\tcode{for_each_result}, \tcode{minmax_result}, \tcode{mismatch_result}, and
+The class templates  \tcode{binary_transform_result},
+\tcode{for_each_result}, \tcode{minmax_result}, \tcode{mismatch_result},
+\tcode{copy_result}, and
 \tcode{partition_copy_result} have the template parameters, data members, and
 special members specified above. They have no base classes or members other than
 those specified.
@@ -2182,7 +2183,8 @@ namespace std {
   namespace ranges {
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
         class Proj1 = identity, class Proj2 = identity,
-        IndirectStrictWeakOrder<projected<I1, Proj1>, projected<I2, Proj2>> Comp = ranges::less<>>
+        IndirectStrictWeakOrder<projected<I1, Proj1>, projected<I2, Proj2>> Comp =
+          ranges::less<>>
       constexpr bool includes(I1 first1, S1 last1, I2 first2, S2 last2, Comp comp = {},
                               Proj1 proj1 = {}, Proj2 proj2 = {});
     template<InputRange R1, InputRange R2, class Proj1 = identity,
@@ -2223,7 +2225,8 @@ namespace std {
     using set_union_result = binary_transform_result<I1, I2, O>;
 
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-        WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+        WeaklyIncrementable O, class Comp = ranges::less<>,
+        class Proj1 = identity, class Proj2 = identity>
       requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
       constexpr set_union_result<I1, I2, O>
         set_union(I1 first1, S1 last1, I2 first2, S2 last2, O result, Comp comp = {},
@@ -2266,7 +2269,8 @@ namespace std {
     using set_intersection_result = binary_transform_result<I1, I2, O>;
 
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-        WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+        WeaklyIncrementable O, class Comp = ranges::less<>,
+        class Proj1 = identity, class Proj2 = identity>
       requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
       constexpr set_intersection_result<I1, I2, O>
         set_intersection(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -2309,7 +2313,8 @@ namespace std {
     using set_difference_result = copy_result<I, O>;
 
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-        WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+        WeaklyIncrementable O, class Comp = ranges::less<>,
+        class Proj1 = identity, class Proj2 = identity>
       requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
       constexpr set_difference_result<I1, O>
         set_difference(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -2352,7 +2357,8 @@ namespace std {
     using set_symmetric_difference_result = binary_transform_result<I1, I2, O>;
 
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-        WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+        WeaklyIncrementable O, class Comp = ranges::less<>,
+        class Proj1 = identity, class Proj2 = identity>
       requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
       constexpr set_symmetric_difference_result<I1, I2, O>
         set_symmetric_difference(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -2667,7 +2673,8 @@ namespace std {
   namespace ranges {
     template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
         class Proj1 = identity, class Proj2 = identity,
-        IndirectStrictWeakOrder<projected<I1, Proj1>, projected<I2, Proj2>> Comp = ranges::less<>>
+        IndirectStrictWeakOrder<projected<I1, Proj1>, projected<I2, Proj2>> Comp =
+          ranges::less<>>
       constexpr bool
         lexicographical_compare(I1 first1, S1 last1, I2 first2, S2 last2,
                                 Comp comp = {}, Proj1 proj1 = {}, Proj2 proj2 = {});
@@ -3274,7 +3281,7 @@ Let $E$ be:
 \begin{itemize}
 \item \tcode{*i == *j} for the overloads with no parameter \tcode{pred},
 \item \tcode{pred(*i, *j) != false} for the overloads with a parameter \tcode{pred} and no parameter \tcode{proj1},
-\item \tcode{invoke(pred, invoke(proj1, *i), invoke(proj2, *j)) != false} for the overloads with both parameters \tcode{pred} and \tcode{proj1}.
+\item \tcode{invoke(pred, invoke(proj1, *i), invoke(proj2, *j)) != false} for the overloads with parameters \tcode{pred} and \tcode{proj1}.
 \end{itemize}
 
 \pnum
@@ -3339,6 +3346,7 @@ namespace ranges {
 \pnum
 Let $E$ be:
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{*i == *(i + 1)} for the overloads with no parameter \tcode{pred},
 \item \tcode{pred(*i, *(i + 1)) != false} for the overloads with a parameter \tcode{pred} and no parameter \tcode{proj},
 \item \tcode{invoke(pred, invoke(proj, *i), invoke(proj, *(i + 1))) != false} for the overloads with both parameters \tcode{pred} and \tcode{proj}.
@@ -3513,6 +3521,7 @@ Let \tcode{last2} be \tcode{first2 + (last1 - first1)} for the overloads with no
 \pnum
 Let $E$ be:
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{!(*(first1 + n) == *(first2 + n))} for the overloads with no parameter \tcode{pred},
 \item \tcode{pred(*(first1 + n), *(first2 + n)) == false} for the overloads with a parameter \tcode{pred} and no parameter \tcode{proj1},
 \item \tcode{!invoke(pred, invoke(proj1, *(first1 + n)), invoke(proj2, *(first2 + n)))} for the overloads with both parameters \tcode{pred} and \tcode{proj1}.
@@ -3598,6 +3607,7 @@ Let:
 
 \item $E$ be:
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{pred(*i, *(first2 + (i - first1)))} for the overloads with no parameter \tcode{proj1},
 \item \tcode{invoke(pred, invoke(proj1, *i), invoke(proj2, *(first2 + (i - first1))))} for the overloads with parameter \tcode{proj1}.
 \end{itemize}
@@ -3987,24 +3997,27 @@ namespace ranges {
 
 \begin{itemdescr}
 \pnum
+Let $N$ be \tcode{last - first}.
+
+\pnum
 \requires \tcode{result} shall not be in the range \range{first}{last}.
 
 \pnum
-\effects Copies elements in the range \range{first}{last} into the range \range{result}{result + (last - first)} starting from \tcode{first} and proceeding to \tcode{last}.
-For each non-negative integer $n < \tcode{(last - first)}$, performs \tcode{*(result + $n$) = *(first + $n$)}.
+\effects Copies elements in the range \range{first}{last} into the range \range{result}{result + $N$} starting from \tcode{first} and proceeding to \tcode{last}.
+For each non-negative integer $n < N$, performs \tcode{*(result + $n$) = *(first + $n$)}.
 
 \pnum
 \returns
 \begin{itemize}
 \item
-\tcode{result + (last - first)} for the overload in namespace \tcode{std}, or
+\tcode{result + $N$} for the overload in namespace \tcode{std}, or
 \item
-\tcode{\{last, result + (last - first)\}} for the overloads in
+\tcode{\{last, result + $N$\}} for the overloads in
 namespace \tcode{ranges}.
 \end{itemize}
 
 \pnum
-\complexity Exactly \tcode{last - first} assignments.
+\complexity Exactly $N$ assignments.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{copy}}%
@@ -4158,6 +4171,9 @@ namespace ranges {
 
 \begin{itemdescr}
 \pnum
+Let $N$ be \tcode{last - first}.
+
+\pnum
 \requires
 \tcode{result}
 shall not be in the range
@@ -4167,33 +4183,31 @@ shall not be in the range
 \effects
 Copies elements in the range \range{first}{last}
 into the
-range \range{result - (last-first)}{result}
+range \range{result - $N$}{result}
 starting from
 \tcode{last - 1}
 and proceeding to \tcode{first}.\footnote{\tcode{copy_backward}
 should be used instead of copy when \tcode{last}
 is in
 the range
-\range{result - (last - first)}{result}.}
+\range{result - $N$}{result}.}
 For each positive integer
-$n \le \tcode{(last - first)}$,
+$n \le N$,
 performs
 \tcode{*(result - $n$) = *(last - $n$)}.
 
 \pnum
 \returns
 \begin{itemize}
-\item \tcode{result - (last - first)}
+\item \tcode{result - $N$}
   for the overload in namespace \tcode{std}, or
-\item \tcode{\{last, result - (last - first)\}}
+\item \tcode{\{last, result - $N$\}}
   for the overloads in namespace \tcode{ranges}.
 \end{itemize}
 
 \pnum
 \complexity
-Exactly
-\tcode{last - first}
-assignments.
+Exactly $N$ assignments.
 \end{itemdescr}
 
 \rSec2[alg.move]{Move}
@@ -4223,6 +4237,7 @@ Let $E$ be
 \item \tcode{std::move(*(first + $n$))} for the overload in namespace \tcode{std}, or
 \item \tcode{ranges::iter_move(first + $n$)} for the overloads in namespace \tcode{ranges}.
 \end{itemize}
+Let $N$ be \tcode{last - first}.
 
 \pnum
 \requires
@@ -4233,10 +4248,10 @@ shall not be in the range
 \pnum
 \effects
 Moves elements in the range \range{first}{last}
-into the range \range{result}{result + (last - first)}
+into the range \range{result}{result + $N$}
 starting from \tcode{first} and proceeding to \tcode{last}.
 For each non-negative integer
-$n < \tcode{(last-first)}$,
+$n < N$,
 performs
 \tcode{*(result + $n$) = $E$}.
 
@@ -4244,17 +4259,15 @@ performs
 \returns
 \begin{itemize}
 \item
-\tcode{result + (last - first)} for the overload in namespace \tcode{std}, or
+\tcode{result + $N$} for the overload in namespace \tcode{std}, or
 \item
-\tcode{\{last, result + (last - first)\}} for the overloads in
+\tcode{\{last, result + $N$\}} for the overloads in
   namespace \tcode{ranges}.
 \end{itemize}
 
 \pnum
 \complexity
-Exactly
-\tcode{last - first}
-assignments.
+Exactly $N$ assignments.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{move}!algorithm}%
@@ -4267,20 +4280,23 @@ template<class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2>
 
 \begin{itemdescr}
 \pnum
+Let $N$ be \tcode{last - first}.
+
+\pnum
 \requires The ranges \range{first}{last} and
-\range{result}{result + (last - first)} shall not overlap.
+\range{result}{result + $N$} shall not overlap.
 
 \pnum
 \effects Moves elements in the range \range{first}{last} into
-the range \range{result}{result + (last - first)}.
-For each non-negative integer \tcode{n < (last - first)},
-performs \tcode{*(result + n) = std::\brk{}move(*(first + n))}.
+the range \range{result}{result + $N$}.
+For each non-negative integer $n < N$,
+performs \tcode{*(result + $n$) = std::\brk{}move(*(first + $n$))}.
 
 \pnum
-\returns \tcode{result + (last - first)}.
+\returns \tcode{result + $N$}.
 
 \pnum
-\complexity Exactly \tcode{last - first} assignments.
+\complexity Exactly $N$ assignments.
 \end{itemdescr}
 
 \indexlibrary{\idxcode{move_backward}}%
@@ -4308,6 +4324,7 @@ Let $E$ be
 \item \tcode{std::move(*(last - $n$))} for the overload in namespace \tcode{std}, or
 \item \tcode{ranges::iter_move(last - $n$)} for the overloads in namespace \tcode{ranges}.
 \end{itemize}
+Let $N$ be \tcode{last - first}.
 
 \pnum
 \requires
@@ -4319,32 +4336,30 @@ shall not be in the range
 \effects
 Moves elements in the range \range{first}{last}
 into the
-range \range{result - (last - first)}{result}
+range \range{result - $N$}{result}
 starting from
 \tcode{last - 1}
 and proceeding to \tcode{first}.\footnote{\tcode{move_backward}
 should be used instead of move when last
 is in
 the range
-\range{result - (last - first)}{result}.}
+\range{result - $N$}{result}.}
 For each positive integer
-$n \le \tcode{(last - first)}$,
+$n \le N$,
 performs
 \tcode{*(result - $n$) = $E$}.
 
 \pnum
 \returns
 \begin{itemize}
-\item \tcode{result - (last - first)} for the overload in namespace \tcode{std}, or
-\item \tcode{\{last, result - (last - first)\}} for the overloads
+\item \tcode{result - $N$} for the overload in namespace \tcode{std}, or
+\item \tcode{\{last, result - $N$\}} for the overloads
   in namespace \tcode{ranges}.
 \end{itemize}
 
 \pnum
 \complexity
-Exactly
-\tcode{last - first}
-assignments.
+Exactly $N$ assignments.
 \end{itemdescr}
 
 \rSec2[alg.swap]{Swap}
@@ -4497,6 +4512,7 @@ namespace ranges {
 \pnum
 Let:
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{last2} be \tcode{first2 + (last1 - first1)} for the overloads with
   parameter \tcode{first2} but no parameter \tcode{last2},
 \item $N$ be \tcode{last1 - first1} for unary transforms, or
@@ -4509,7 +4525,7 @@ Let:
     binary transforms defined in namespace \tcode{std},
   \item \tcode{invoke(op, invoke(proj, *(first1 + (i - result))))} for unary
     transforms defined in namespace \tcode{ranges}, or
-  \item \tcode{invoke(binary_op, invoke(proj1, *(first1 + (i - result))), invoke(proj2, *(first2 + (i - result))))}
+  \item \tcode{invoke(binary_op, invoke(proj1, *(first1 + (i - result))), invoke(proj2,\linebreak *(first2 + (i - result))))}
     for binary transforms defined in namespace \tcode{ranges}.
   \end{itemize}
 \end{itemize}
@@ -4696,6 +4712,7 @@ namespace ranges {
 \end{itemdecl}
 
 \begin{itemdescr}
+\setlength{\emergencystretch}{1.5em}
 \pnum
 Let $E$ be
 \begin{itemize}
@@ -4706,7 +4723,7 @@ Let $E$ be
 \item \tcode{bool(invoke(proj, *(first + (i - result))) == old_value)}
   for \tcode{ranges::replace_copy},
 \item \tcode{bool(invoke(pred, invoke(proj, *(first + (i - result)))))}
-  for \tcode{ranges::replace_copy_if}.
+  for \tcode{ranges::replace_\-copy_if}.
 \end{itemize}
 
 \pnum
@@ -5085,6 +5102,7 @@ namespace ranges {
 Let \tcode{pred} be \tcode{equal_to\{\}} for the overloads with no
 parameter \tcode{pred}, and let $E$ be
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{bool(pred(*(i - 1), *i))}
   for the overloads in namespace \tcode{std}, or
 \item \tcode{bool(invoke(comp, invoke(proj, *(i - 1)), invoke(proj, *i)))}
@@ -5168,6 +5186,7 @@ namespace ranges {
 Let \tcode{pred} be \tcode{equal_to\{\}} for the overloads in
 namespace \tcode{std} with no parameter \tcode{pred}, and let $E$ be
 \begin{itemize}
+\setlength{\emergencystretch}{1em}
 \item \tcode{bool(pred(*i, *(i - 1)))}
   for the overloads in namespace \tcode{std}, or
 \item \tcode{bool(invoke(comp, invoke(proj, *i), invoke(proj, *(i - 1))))}
@@ -5262,7 +5281,7 @@ namespace ranges {
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{BidirectionalIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements}.
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements}.
 
 \pnum
 \effects
@@ -5270,7 +5289,7 @@ For each non-negative integer
 \tcode{i < (last - first) / 2},
 applies
 \tcode{std::iter_swap}, or
-\tcode{ranges::iter_swap} for the overloads in namespace \tcode{ranges},
+\tcode{ranges::\brk{}iter_swap} for the overloads in namespace \tcode{ranges},
 to all pairs of iterators
 \tcode{first + i, (last - i) - 1}.
 
@@ -5882,7 +5901,7 @@ for the overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{RandomAccessIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements} and
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements} and
 the type of \tcode{*first} shall meet the
 \oldconcept{MoveConstructible} (\tref{moveconstructible}) and
 \oldconcept{MoveAssignable} (\tref{moveassignable}) requirements.
@@ -5942,7 +5961,7 @@ for the overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{RandomAccessIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements} and
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements} and
 the type of \tcode{*first} shall meet the
 \oldconcept{MoveConstructible} (\tref{moveconstructible}) and
 \oldconcept{MoveAssignable} (\tref{moveassignable}) requirements.
@@ -6123,7 +6142,7 @@ for the overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{RandomAccessIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements},
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements},
 the type of \tcode{*result_first} shall meet the
 \oldconcept{MoveConstructible} (\tref{moveconstructible}) and
 \oldconcept{\-Move\-Assignable} (\tref{moveassignable}) requirements,
@@ -6561,12 +6580,12 @@ of
 shall be partitioned with respect to the expressions
 \tcode{bool(invoke(comp, invoke(proj, e), value))}
 and
-\tcode{!bool(invoke(comp, value, invoke(proj, e))).}
+\tcode{!bool(invoke(comp, value, invoke(proj, e)))}.
 Also, for all elements
 \tcode{e}
 of
 \tcode{[first, last)},
-\tcode{bool(comp(e, value))} shall imply \tcode{!bool(comp(value, e))}
+\tcode{bool(comp(e, value))} shall imply \tcode{!bool(comp(\brk{}value, e))}
 for the overloads in namespace \tcode{std}.
 
 \pnum
@@ -6630,15 +6649,15 @@ The elements
 of
 \range{first}{last}
 shall be partitioned with respect to the expressions
-\tcode{bool(invoke(comp(, invoke(proj, e), value))} and
-\tcode{!bool(invoke(comp(,value, invoke(proj, e)))}.
+\tcode{bool(invoke(comp, invoke(proj, e), value))} and
+\tcode{!bool(invoke(comp, value, invoke(proj, e)))}.
 Also, for all elements
 \tcode{e}
 of
 \tcode{[first, last)},
 \tcode{bool(comp(e, value))}
 shall imply
-\tcode{!bool(comp(value, e))}
+\tcode{!bool(comp(\brk{}value, e))}
 for the overloads in namespace \tcode{std}.
 
 \pnum
@@ -6720,7 +6739,7 @@ namespace ranges {
 \pnum
 Let \tcode{proj} be \tcode{identity\{\}} for the overloads
 with no parameter named \tcode{proj}
-and let $E(x)$ be \tcode{bool(invoke(pred, invoke(proj, $x$)))}.
+and let $E(x)$ be \tcode{bool(invoke(\brk{}pred, invoke(proj, $x$)))}.
 
 \pnum
 \requires
@@ -6781,12 +6800,12 @@ namespace ranges {
 \pnum
 Let \tcode{proj} be \tcode{identity\{\}} for the overloads
 with no parameter named \tcode{proj}
-and let $E(x)$ be \tcode{bool(invoke(pred, invoke(proj, $x$)))}.
+and let $E(x)$ be \tcode{bool(invoke(\brk{}pred, invoke(proj, $x$)))}.
 
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{BidirectionalIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements} and
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements} and
 the type of \tcode{*first} shall meet the
 \oldconcept{MoveConstructible} (\tref{moveconstructible}) and
 \oldconcept{MoveAssignable} (\tref{moveassignable}) requirements.
@@ -6861,7 +6880,7 @@ namespace ranges {
 \pnum
 Let \tcode{proj} be \tcode{identity\{\}} for the overloads
 with no parameter named \tcode{proj}
-and let $E(x)$ be \tcode{bool(invoke(pred, invoke(proj, $x$)))}.
+and let $E(x)$ be \tcode{bool(invoke(\brk{}pred, invoke(proj, $x$)))}.
 
 \pnum
 \requires
@@ -6916,7 +6935,7 @@ namespace ranges {
 \pnum
 Let \tcode{proj} be \tcode{identity\{\}} for the overloads
 with no parameter named \tcode{proj}
-and let $E(x)$ be \tcode{bool(invoke(pred, invoke(proj, $x$)))}.
+and let $E(x)$ be \tcode{bool(invoke(\brk{}pred, invoke(proj, $x$)))}.
 
 \pnum
 \requires
@@ -7070,7 +7089,7 @@ for the overloads with no parameters by those names.
 sorted with respect to \tcode{comp} and \tcode{proj}.
 For the overloads in namespace \tcode{std},
 \tcode{BidirectionalIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements} and
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements} and
 the type of \tcode{*first} shall meet the
 \oldconcept{MoveConstructible} (\tref{moveconstructible}) and
 \oldconcept{MoveAssignable} (\tref{moveassignable}) requirements.
@@ -7235,7 +7254,8 @@ template<class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2,
 
 namespace ranges {
   template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-      WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+      WeaklyIncrementable O, class Comp = ranges::less<>,
+      class Proj1 = identity, class Proj2 = identity>
     requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
     constexpr set_union_result<I1, I2, O>
       set_union(I1 first1, S1 last1, I2 first2, S2 last2, O result, Comp comp = {},
@@ -7327,7 +7347,8 @@ template<class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2,
 
 namespace ranges {
   template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-      WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+      WeaklyIncrementable O, class Comp = ranges::less<>,
+      class Proj1 = identity, class Proj2 = identity>
     requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
     constexpr set_intersection_result<I1, I2, O>
       set_intersection(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -7418,7 +7439,8 @@ template<class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2,
 
 namespace ranges {
   template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-      WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+      WeaklyIncrementable O, class Comp = ranges::less<>,
+      class Proj1 = identity, class Proj2 = identity>
     requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
     constexpr set_difference_result<I1, O>
       set_difference(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -7520,7 +7542,8 @@ template<class ExecutionPolicy, class ForwardIterator1, class ForwardIterator2,
 
 namespace ranges {
   template<InputIterator I1, Sentinel<I1> S1, InputIterator I2, Sentinel<I2> S2,
-      WeaklyIncrementable O, class Comp = ranges::less<>, class Proj1 = identity, class Proj2 = identity>
+      WeaklyIncrementable O, class Comp = ranges::less<>,
+      class Proj1 = identity, class Proj2 = identity>
     requires Mergeable<I1, I2, O, Comp, Proj1, Proj2>
     constexpr set_symmetric_difference_result<I1, I2, O>
       set_symmetric_difference(I1 first1, S1 last1, I2 first2, S2 last2, O result,
@@ -7601,7 +7624,7 @@ if its elements are organized such that:
 
 \begin{itemize}
 \item With \tcode{$N$ = b - a}, for all $i$, $0 < i < N$,
-\tcode{bool(invoke(comp, invoke(proj, a[$\left \lfloor{\frac{i - 1}{2}}\right \rfloor$]), invoke(proj, a[$i$])))}
+\tcode{bool(invoke(comp, invoke(proj, a[$\left \lfloor{\frac{i - 1}{2}}\right \rfloor$]), invoke(\brk{}proj, a[$i$])))}
 is \tcode{false}.
 \item \tcode{*a}
 may be removed by
@@ -7778,10 +7801,10 @@ for the overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 the type of \tcode{*first} shall meet
-the \oldconcept{MoveConstructible} requirements
-(\tref{moveconstructible}) and the
-\oldconcept{MoveAssignable} requirements
-(\tref{moveassignable}).
+the \oldconcept{Move\-Constructible}
+(\tref{moveconstructible}) and
+\oldconcept{MoveAssignable}
+(\tref{moveassignable}) requirements.
 
 \pnum
 \effects
@@ -8043,7 +8066,7 @@ namespace ranges {
 \requires
 \tcode{ranges::distance(r) > 0}.
 For the overloads in namespace \tcode{std},
-\tcode{T} shall be \oldconcept{CopyConstructible}.
+\tcode{T} shall be \oldconcept{Copy\-Constructible}.
 For the first form, type \tcode{T} shall be \oldconcept{LessThanComparable}.
 
 \pnum
@@ -8120,7 +8143,7 @@ namespace ranges {
 \requires
 \tcode{ranges::distance(r) > 0}.
 For the overloads in namespace \tcode{std},
-\tcode{T} shall be \oldconcept{CopyConstructible}.
+\tcode{T} shall be \oldconcept{Copy\-Constructible}.
 For the first form, type \tcode{T} shall be \oldconcept{LessThanComparable}.
 
 \pnum
@@ -8200,7 +8223,7 @@ namespace ranges {
 \requires
 \tcode{ranges::distance(r) > 0}.
 For the overloads in namespace \tcode{std},
-\tcode{T} shall be \oldconcept{CopyConstructible}.
+\tcode{T} shall be \oldconcept{Copy\-Constructible}.
 For the first form, type \tcode{T} shall be \oldconcept{LessThanComparable}.
 
 \pnum
@@ -8636,7 +8659,7 @@ for overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{BidirectionalIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements}.
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements}.
 
 \pnum
 \effects
@@ -8694,7 +8717,7 @@ for overloads with no parameters by those names.
 \requires
 For the overloads in namespace \tcode{std},
 \tcode{BidirectionalIterator} shall meet the
-\oldconcept{ValueSwappable} requirements\iref{swappable.requirements}.
+\oldconcept{Value\-Swappable} requirements\iref{swappable.requirements}.
 
 \pnum
 \effects
