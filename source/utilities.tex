@@ -6549,20 +6549,15 @@ namespace std {
   // \ref{specialized.algorithms}, specialized algorithms
   // \ref{special.mem.concepts}, special memory concepts
   template<class I>
-    concept @\placeholdernc{no-throw-input-iterator}@ = @\seebelownc@; // \expos
-
+    concept @\placeholdernc{no-throw-input-iterator}@ = @\seebelow@;    // \expos
   template<class I>
-    concept @\placeholdernc{no-throw-forward-iterator}@ = @\seebelownc@; // \expos
-
+    concept @\placeholdernc{no-throw-forward-iterator}@ = @\seebelow@;  // \expos
   template<class S, class I>
-    concept @\placeholdernc{no-throw-sentinel}@ = @\seebelownc@; // \expos
-
+    concept @\placeholdernc{no-throw-sentinel}@ = @\seebelow@;          // \expos
   template<class R>
-    concept @\placeholdernc{no-throw-input-range}@ = @\seebelownc@; // \expos
-
+    concept @\placeholdernc{no-throw-input-range}@ = @\seebelow@;       // \expos
   template<class R>
-    concept @\placeholdernc{no-throw-forward-range}@ = @\seebelownc@; // \expos
-
+    concept @\placeholdernc{no-throw-forward-range}@ = @\seebelow@;     // \expos
 
   template<class T>
     constexpr T* addressof(T& r) noexcept;
@@ -6634,7 +6629,8 @@ namespace std {
   namespace ranges {
     template<class I, class O>
     using uninitialized_copy_result = copy_result<I, O>;
-    template<InputIterator I, Sentinel<I> S1, @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
+    template<InputIterator I, Sentinel<I> S1,
+             @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
       requires Constructible<iter_value_t<O>, iter_reference_t<I>>
         uninitialized_copy_result<I, O>
           uninitialized_copy(I ifirst, S1 ilast, O ofirst, S2 olast);
@@ -6669,18 +6665,21 @@ namespace std {
   namespace ranges {
     template<class I, class O>
       using uninitialized_move_result = uninitialized_copy_result<I, O>;
-    template<InputIterator I, Sentinel<I> S1, @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
+    template<InputIterator I, Sentinel<I> S1,
+             @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
       requires Constructible<iter_value_t<O>, iter_rvalue_reference_t<I>>
         uninitialized_move_result<I, O>
           uninitialized_move(I ifirst, S1 ilast, O ofirst, S2 olast);
     template<InputRange IR, @\placeholdernc{no-throw-forward-range}@ OR>
-      requires Constructible<iter_value_t<iterator_t<OR>>, iter_rvalue_reference_t<iterator_t<IR>>>
+      requires Constructible<iter_value_t<iterator_t<OR>>,
+                             iter_rvalue_reference_t<iterator_t<IR>>>
         uninitialized_move_result<safe_iterator_t<IR>, safe_iterator_t<OR>>
           uninitialized_move(IR&& input_range, OR&& output_range);
 
     template<class I, class O>
       using uninitialized_move_n_result = uninitialized_copy_result<I, O>;
-    template<InputIterator I, @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S>
+    template<InputIterator I,
+             @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S>
       requires Constructible<iter_value_t<O>, iter_rvalue_reference_t<I>>
         uninitialized_move_n_result<I, O>
           uninitialized_move_n(I ifirst, iter_difference_t<I> n, O ofirst, S olast);
@@ -8056,7 +8055,8 @@ for (; first != last; ++result, (void) ++first)
 \indexlibrary{\idxcode{uninitialized_copy}}%
 \begin{itemdecl}
 namespace ranges {
-  template<InputIterator I, Sentinel<I> S1, @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
+  template<InputIterator I, Sentinel<I> S1,
+           @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
       requires Constructible<iter_value_t<O>, iter_reference_t<I>>
     uninitialized_copy_result<I, O>
       uninitialized_copy(I ifirst, S1 ilast, O ofirst, S2 olast);
@@ -8165,7 +8165,8 @@ are left in a valid but unspecified state.
 \indexlibrary{\idxcode{uninitialized_move}}%
 \begin{itemdecl}
 namespace ranges {
-  template<InputIterator I, Sentinel<I> S1, @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
+  template<InputIterator I, Sentinel<I> S1,
+           @\placeholdernc{no-throw-forward-iterator}@ O, @\placeholdernc{no-throw-sentinel}@<O> S2>
       requires Constructible<iter_value_t<O>, iter_rvalue_reference_t<I>>
     uninitialized_move_result<I, O>
       uninitialized_move(I ifirst, S1 ilast, O ofirst, S2 olast);
@@ -8185,7 +8186,8 @@ namespace ranges {
 \effects Equivalent to:
 \begin{codeblock}
 for (; ifirst != ilast && ofirst != olast; ++ofirst, (void)++ifirst) {
-  ::new (@\placeholdernc{voidify}@(*ofirst)) remove_reference_t<iter_reference_t<O>>(ranges::iter_move(ifirst));
+  ::new (@\placeholder{voidify}@(*ofirst))
+    remove_reference_t<iter_reference_t<O>>(ranges::iter_move(ifirst));
 }
 return {ifirst, ofirst};
 \end{codeblock}

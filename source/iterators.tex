@@ -664,7 +664,6 @@ iter_difference_t<WI>
 \end{codeblock}
 be defined as the incrementable type's difference type.
 
-\indexlibrary{\idxcode{iter_difference_t}}%
 \indexlibrary{\idxcode{incrementable_traits}}%
 \begin{codeblock}
 namespace std {
@@ -698,13 +697,18 @@ namespace std {
 }
 \end{codeblock}
 
+\indexlibrary{\idxcode{iter_difference_t}}%
 \pnum
-If \tcode{iterator_traits<I>} names a specialization
-generated from the primary template,
-then \tcode{iter_difference_t<I>} denotes
-\tcode{incrementable_traits<I>::difference_type};
-otherwise, it denotes
-\tcode{iterator_traits<I>::\brk{}difference_type}.
+The type \tcode{iter_difference_t<I>} denotes
+\begin{itemize}
+\item
+\tcode{incrementable_traits<I>::difference_type}
+if \tcode{iterator_traits<I>} names a specialization
+generated from the primary template, and
+
+\item
+\tcode{iterator_traits<I>::\brk{}difference_type} otherwise.
+\end{itemize}
 
 \pnum
 Users may specialize \tcode{incrementable_traits} on program-defined types.
@@ -722,7 +726,6 @@ iter_value_t<R>
 \end{codeblock}
 be defined as the readable type's value type.
 
-\indexlibrary{\idxcode{iter_value_t}}%
 \indexlibrary{\idxcode{readable_traits}}%
 \begin{codeblock}
   template<class> struct @\placeholder{cond-value-type}@ { };   // \expos
@@ -761,11 +764,18 @@ be defined as the readable type's value type.
   template<class T> using iter_value_t = @\seebelow@;
 \end{codeblock}
 
+\indexlibrary{\idxcode{iter_value_t}}%
 \pnum
-If \tcode{iterator_traits<I>} names a specialization
-generated from the primary template,
-then \tcode{iter_value_t<I>} denotes \tcode{readable_traits<I>::value_type};
-otherwise, it denotes \tcode{iterator_traits<I>::value_type}.
+The type \tcode{iter_value_t<I>} denotes
+\begin{itemize}
+\item
+\tcode{readable_traits<I>::value_type}
+if \tcode{iterator_traits<I>} names a specialization
+generated from the primary template, and
+
+\item
+\tcode{iterator_traits<I>::value_type} otherwise.
+\end{itemize}
 
 \pnum
 Class template \tcode{readable_traits} may be specialized
@@ -911,7 +921,8 @@ otherwise, it names \tcode{void}.
 \item
 Otherwise, if \tcode{I} satisfies the exposition-only concept
 \tcode{\placeholder{cpp17-input-iterator}},
-then \tcode{iterator_traits<I>} has the following
+%then
+\tcode{iterator_traits<I>} has the following
 publicly accessible members:
 \begin{codeblock}
   using iterator_category = @\seebelow@;
@@ -932,18 +943,25 @@ type, \tcode{reference} names that type. Otherwise, \tcode{reference}
 names \tcode{iter_reference_t<I>}.
 
 \item If the \grammarterm{qualified-id} \tcode{I::iterator_category} is valid and
-denotes a type, \tcode{iterator_category} names that type. Otherwise, if
+denotes a type, \tcode{iterator_category} names that type.
+Otherwise, \tcode{iterator_category} names:
+\begin{itemize}
+\item
+\tcode{random_access_iterator_tag}
+if
 \tcode{I} satisfies \tcode{\placeholder{cpp17-random-access-iterator}},
-\tcode{iterator_category} names
-\tcode{random_access_iterator_tag}. Otherwise, if
+or otherwise
+\item
+\tcode{bidirectional_iterator_tag} if
 \tcode{I} satisfies \tcode{\placeholder{cpp17-bidirectional-iterator}},
-\tcode{iterator_category} names
-\tcode{bidirectional_iterator_tag}. Otherwise, if
+or otherwise
+\item
+\tcode{forward_iterator_tag} if
 \tcode{I} satisfies \tcode{\placeholder{cpp17-forward-iterator}},
-\tcode{iterator_category} names
-\tcode{forward_iterator_tag}.
-Otherwise, \tcode{iterator_category} names
+or otherwise
+\item
 \tcode{input_iterator_tag}.
+\end{itemize}
 \end{itemize}
 
 \item

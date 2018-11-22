@@ -559,12 +559,13 @@ if the operation modifies neither \tcode{t2} nor \tcode{u2} and:
 The name \tcode{ranges::swap} denotes a customization point
 object\iref{customization.point.object}. The expression
 \tcode{ranges::swap(E1, E2)} for some subexpressions \tcode{E1}
-and \tcode{E2} is expression-equivalent to:
+and \tcode{E2} is expression-equivalent to an expression
+\tcode{S} determined as follows:
 
 \begin{itemize}
 \item
-  \tcode{(void)swap(E1, E2)}\footnote{The name \tcode{swap} is used
-  here unqualified.}, if \tcode{E1} or \tcode{E2}
+  \tcode{S} is \tcode{(void)swap(E1, E2)}\footnote{The name \tcode{swap} is used
+  here unqualified.} if \tcode{E1} or \tcode{E2}
   has class or enumeration type\iref{basic.compound} and that expression is valid, with
   overload resolution performed in a context that includes the declarations
 \begin{codeblock}
@@ -580,32 +581,35 @@ and \tcode{E2} is expression-equivalent to:
   the program is ill-formed with no diagnostic required.
 
 \item
-  Otherwise, \tcode{(void)ranges::swap_ranges(E1, E2)} if \tcode{E1} and
-  \tcode{E2} are lvalues of array types\iref{basic.compound}
+  Otherwise, if \tcode{E1} and \tcode{E2}
+  are lvalues of array types\iref{basic.compound}
   with equal extent and \tcode{ranges::swap(*E1, *E2)}
-  is a valid expression, except that
-  \tcode{noexcept(\brk{}ranges::swap(E1, E2))} is equal to
+  is a valid expression,
+  \tcode{S} is \tcode{(void)ranges::swap_ranges(E1, E2)},
+  except that
+  \tcode{noexcept(S)} is equal to
   \tcode{noexcept(\brk{}ranges::swap(*E1, *E2))}.
 
 \item
   Otherwise, if \tcode{E1} and \tcode{E2} are lvalues of the
   same type \tcode{T} that models \libconcept{MoveConstructible<T>} and
-  \libconcept{Assignable<T\&, T>}, an expression that exchanges the denoted values.
-  \tcode{ranges::swap(\brk{}E1, E2)} is a constant expression if
+  \libconcept{Assignable<T\&, T>},
+  \tcode{S} is an expression that exchanges the denoted values.
+  \tcode{S} is a constant expression if
   \begin{itemize}
   \item \tcode{T} is a literal type\iref{basic.types},
   \item both \tcode{E1 = std::move(E2)} and \tcode{E2 = std::move(E1)} are
     constant subexpressions\iref{defns.const.subexpr}, and
   \item the full-expressions of the initializers in the declarations
-    \begin{codeblock}
-    T t1(std::move(E1));
-    T t2(std::move(E2));
-    \end{codeblock}
-    are constant subexpressions.
+\begin{codeblock}
+T t1(std::move(E1));
+T t2(std::move(E2));
+\end{codeblock}
+
+are constant subexpressions.
   \end{itemize}
-  \tcode{noexcept(ranges::swap(E1, E2))} is equal to
-  \tcode{is_nothrow_move_constructible_v<T> \&\&
-  is_nothrow_move_assignable_v<T>}.
+  \tcode{noexcept(S)} is equal to
+  \tcode{is_nothrow_move_constructible_v<T> \&\& is_nothrow_move_assignable\-_v<T>}.
 
 \item
   Otherwise, \tcode{ranges::swap(E1, E2)} is ill-formed.
@@ -625,7 +629,7 @@ exchanges the values denoted by
 \indexlibrary{\idxcode{Swappable}}%
 \begin{itemdecl}
 template<class T>
-  concept Swappable = requires(T\& a, T\& b) \{ ranges::swap(a, b); \};
+  concept Swappable = requires(T& a, T& b) { ranges::swap(a, b); };
 \end{itemdecl}
 
 \indexlibrary{\idxcode{SwappableWith}}%
