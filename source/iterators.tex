@@ -1681,7 +1681,7 @@ template<class I>
 Let \tcode{a} and \tcode{b} be dereferenceable iterators of type \tcode{I}
 such that \tcode{b} is reachable from \tcode{a},
 and let \tcode{D} be \tcode{iter_difference_t<I>}.
-\tcode{I} models \libconcept{ContiguousIterator} only if
+The type \tcode{I} models \libconcept{ContiguousIterator} only if
 \tcode{addressof(*(a + D(b - a)))}
 is equal to
 \tcode{addressof(*a) + D(b - a)}.
@@ -2643,7 +2643,7 @@ template<class BidirectionalIterator>
 \rSec2[range.iterator.operations]{Range iterator operations}
 
 \pnum
-The library includes the operations
+The library includes the function templates
 \tcode{ranges::advance}, \tcode{ranges::distance},
 \tcode{ranges::next}, and \tcode{ranges::prev}
 to manipulate iterators. These operations adapt to the set of operators
@@ -2997,16 +2997,25 @@ namespace std {
 
 \pnum
 The member \grammarterm{typedef-name} \tcode{iterator_concept} denotes
+\begin{itemize}
+\item
 \tcode{random_access_iterator_tag} if \tcode{Iterator} models
 \libconcept{RandomAccessIterator}, and
+\item
 \tcode{bidirectional_iterator_tag} otherwise.
+\end{itemize}
 
 \pnum
 The member \grammarterm{typedef-name} \tcode{iterator_category} denotes
+\begin{itemize}
+\item
 \tcode{random_access_iterator_tag} if
+the type
 \tcode{iterator_traits<\brk{}Iterator>::iterator_category} models
 \libconcept{DerivedFrom<random_access_iterator_tag>}, and
+\item
 \tcode{iterator_traits<\brk{}Iterator>::iterator_category} otherwise.
+\end{itemize}
 
 \rSec3[reverse.iter.requirements]{Requirements}
 
@@ -4020,10 +4029,15 @@ namespace std {
 
 \pnum
 The member \grammarterm{typedef-name} \tcode{iterator_category} denotes
+\begin{itemize}
+\item
 \tcode{random_access_iterator_tag} if
+the type
 \tcode{iterator_traits<\brk{}Iterator>::iterator_category} models
 \libconcept{DerivedFrom<\tcode{random_access_iterator_tag}>}, and
+\item
 \tcode{iterator_traits<\brk{}Iterator>::iterator_category} otherwise.
+\end{itemize}
 
 \rSec3[move.iter.requirements]{Requirements}
 
@@ -4648,12 +4662,11 @@ if \tcode{I} models \libconcept{ForwardIterator};
 otherwise it denotes \tcode{input_iterator_tag}.
 
 \item
-Let \tcode{C} denote the type
-\tcode{iterator_traits<I>::iterator_category}.
-If \tcode{C} models  \tcode{DerivedFrom<forward_iterator_tag>},
-\tcode{iterator_category} denotes \tcode{forward_iterator_tag}.
-Otherwise,
-\tcode{iterator_category} denotes \tcode{input_iterator_tag}.
+\tcode{iterator_category} denotes
+\tcode{forward_iterator_tag}
+if \tcode{iterator_traits<I>::iterator_category}
+models \tcode{DerivedFrom<forward_iterator_tag>};
+otherwise it denotes \tcode{input_iterator_tag}.
 
 \item
 If the expression \tcode{a.operator->()} is well-formed,
