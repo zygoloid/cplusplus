@@ -1,0 +1,23 @@
+%!TEX root = std.tex
+\infannex{ub}{Undefined behavior}
+
+\rSec1[ub.lifetime]{Object lifetime}
+
+\pnum
+\textbf{Specified in:} \ubdef{lifetime.outside} \\
+The behavior of some uses of a pointer
+pointing to an object outside its lifetime
+are not defined.
+
+\pnum
+\begin{example}
+\begin{codeblock}
+struct S {};
+float *f() {
+  S s;
+  S *p = &s;
+  s.~S();
+  return (float*)p;
+}
+\end{codeblock}
+\end{example}

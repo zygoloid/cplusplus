@@ -277,6 +277,11 @@
 %% Inline non-parenthesized figure reference (override memoir's \fref)
 \renewcommand{\fref}[1]{\hyperref[fig:#1]{\figurerefname \nolinebreak[3] \ref*{fig:#1}}}
 
+%% Annex of undefined behavior
+\newcommand{\ubref}[1]{\label{ub:#1}\ref{ubdef:#1}}
+\newcommand{\ubiref}[1]{\nolinebreak[3] (\ubref{#1})}
+\newcommand{\ubdef}[1]{\ref{ub:#1}\label{ubdef:#1}}
+
 %% NTBS, etc.
 \newcommand{\NTS}[1]{\textsc{#1}}
 \newcommand{\ntbs}{\NTS{ntbs}}

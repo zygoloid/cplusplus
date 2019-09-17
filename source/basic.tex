@@ -3218,7 +3218,7 @@ storage\iref{basic.stc.dynamic.allocation}, and using the pointer as
 if the pointer were of type \tcode{void*} is
 well-defined. Indirection through such a pointer is permitted but the resulting lvalue may only be used in
 limited ways, as described below. The
-program has undefined behavior if:
+program has undefined behavior\ubiref{lifetime.outside} if:
 \begin{itemize}
 \item
   the object will be or was of a class type with a non-trivial destructor
